@@ -20,9 +20,50 @@
 <meta property="og:url" content="https://dentroytu.github.io/ryujindo/en/">
 <meta property="og:locale" content="en_GB">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0f172a">
 
-<link rel="stylesheet" href="../css/fuentes.css?v=754a37">
-<link rel="stylesheet" href="../css/estilo.css?v=4f8556">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Ryujindo Card Shop",
+  "alternateName": "龍神堂",
+  "url": "https://dentroytu.github.io/ryujindo/en/",
+  "image": "https://dentroytu.github.io/ryujindo/img/og.jpg",
+  "description": "A TCG card shop simulator set in Japan. From a six-tatami room and one inherited box to a shop of your own: appraise, sort and decide where each card goes out.",
+  "inLanguage": [
+    "es",
+    "en",
+    "de",
+    "fr",
+    "it"
+  ],
+  "genre": [
+    "Simulation",
+    "Indie",
+    "Strategy"
+  ],
+  "gamePlatform": [
+    "PC",
+    "Windows"
+  ],
+  "playMode": "SinglePlayer",
+  "author": {
+    "@type": "Organization",
+    "name": "Ryujindo Games"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Ryujindo Games"
+  }
+}
+</script>
+
+
+<link rel="preload" as="image" href="../img/cruce.webp" fetchpriority="high">
+<link rel="preload" as="image" href="../img/logotipo.webp" fetchpriority="high">
+<link rel="stylesheet" href="../css/fuentes.css?v=355c91">
+<link rel="stylesheet" href="../css/estilo.css?v=0b26f1">
 </head>
 
 <body>
@@ -40,6 +81,7 @@
         <a href="#how-it-plays">How it plays</a>
         <a href="#the-card">The card</a>
         <a href="#screenshots">Screenshots</a>
+        <a href="#questions">Questions</a>
         <a href="#news">News</a>
       </div>
       <a class="boton boton-barra" data-steam aria-disabled="true">
@@ -58,8 +100,8 @@
 <section class="hero">
   <div class="hero-capas" data-parallax>
     <div class="hero-capa viva" style="background-image:url('../img/cruce.webp')"></div>
-    <div class="hero-capa" style="background-image:url('../img/cruce2.webp')"></div>
-    <div class="hero-capa" style="background-image:url('../img/cruce3.webp')"></div>
+    <div class="hero-capa" data-fondo="img/cruce2.webp"></div>
+    <div class="hero-capa" data-fondo="img/cruce3.webp"></div>
   </div>
   <div class="hero-vineta"></div>
   <div class="envoltorio">
@@ -373,7 +415,7 @@
   </div>
 </section>
 
-<section class="sangre" style="background-image:url('../img/local.webp')">
+<section class="sangre" data-fondo="img/local.webp">
   <div class="envoltorio">
     <h2 class="revela"><span class="kanji">貸店舗</span>To let</h2>
     <p class="revela">
@@ -393,6 +435,40 @@
 
     <div class="novedades revela" data-novedades></div>
     <noscript><p data-sinjs>The news list needs JavaScript. Without it, the rest of the page reads the same.</p></noscript>
+  </div>
+</section>
+
+
+<section id="questions">
+  <div class="textura tex-olas"></div>
+  <div class="envoltorio">
+    <h2 class="revela"><span class="kanji">問</span>Questions</h2>
+    <div class="preguntas revela">
+      <details>
+        <summary>When does it come out?</summary>
+        <p>No date yet. What there is, is a wishlist: it's how you find out the day it goes on sale, and it's also what decides whether Steam shows it to anyone else.</p>
+      </details>
+      <details>
+        <summary>Do I need to know about trading cards?</summary>
+        <p>No. The game starts with you unable to appraise anything — that's what the prologue is about — and teaches you along the way. The 540 cards belong to a game invented for this one, so nobody starts ahead.</p>
+      </details>
+      <details>
+        <summary>Can you actually play the card game, or is it only buying and selling?</summary>
+        <p>You play it. <b>一本勝負</b>: twenty-card decks, three copies maximum, and never more copies than you really own. There are tables in your shop and a tournament on Sundays that also moves prices.</p>
+      </details>
+      <details>
+        <summary>Is there multiplayer?</summary>
+        <p>No. It's single player, with a four-act campaign that has an ending.</p>
+      </details>
+      <details>
+        <summary>What languages is it in?</summary>
+        <p>Spanish, English, German, French and Italian, with the interface and the dialogue fully translated. Japanese place names stay as they are: learning them is part of learning the neighbourhood.</p>
+      </details>
+      <details>
+        <summary>Will it come to Mac, Linux or consoles?</summary>
+        <p>Windows at launch. Nothing is promised for other platforms, and I'd rather not promise it before it exists.</p>
+      </details>
+    </div>
   </div>
 </section>
 
@@ -424,12 +500,16 @@
         Screenshots are from the running game and show a build in development:
         what you see here may change.
       </p>
+      <p class="legal">
+        This site <b>uses no cookies and no analytics</b>, loads nothing from
+        third parties and collects no data about you. The fonts are served from here.
+      </p>
       <p class="legal">© <span data-anyo>2026</span> Ryujindo Games</p>
     </div>
   </div>
 </footer>
 
 <script src="../js/novedades.js?v=c5e025"></script>
-<script src="../js/web.js?v=5b4071"></script>
+<script src="../js/web.js?v=ddb49c"></script>
 </body>
 </html>

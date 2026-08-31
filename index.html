@@ -20,9 +20,50 @@
 <meta property="og:url" content="https://dentroytu.github.io/ryujindo/">
 <meta property="og:locale" content="es_ES">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0f172a">
 
-<link rel="stylesheet" href="css/fuentes.css?v=754a37">
-<link rel="stylesheet" href="css/estilo.css?v=4f8556">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Ryujindo Card Shop",
+  "alternateName": "龍神堂",
+  "url": "https://dentroytu.github.io/ryujindo/",
+  "image": "https://dentroytu.github.io/ryujindo/img/og.jpg",
+  "description": "Simulador de tienda de cartas TCG ambientado en Japón. De un cuarto de seis tatamis y una caja heredada a tu propia tienda: tasa, criba y decide por dónde vendes cada carta.",
+  "inLanguage": [
+    "es",
+    "en",
+    "de",
+    "fr",
+    "it"
+  ],
+  "genre": [
+    "Simulation",
+    "Indie",
+    "Strategy"
+  ],
+  "gamePlatform": [
+    "PC",
+    "Windows"
+  ],
+  "playMode": "SinglePlayer",
+  "author": {
+    "@type": "Organization",
+    "name": "Ryujindo Games"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Ryujindo Games"
+  }
+}
+</script>
+
+
+<link rel="preload" as="image" href="img/cruce.webp" fetchpriority="high">
+<link rel="preload" as="image" href="img/logotipo.webp" fetchpriority="high">
+<link rel="stylesheet" href="css/fuentes.css?v=355c91">
+<link rel="stylesheet" href="css/estilo.css?v=0b26f1">
 </head>
 
 <body>
@@ -40,6 +81,7 @@
         <a href="#como-se-juega">Cómo se juega</a>
         <a href="#la-carta">La carta</a>
         <a href="#capturas">Capturas</a>
+        <a href="#preguntas">Preguntas</a>
         <a href="#novedades">Novedades</a>
       </div>
       <a class="boton boton-barra" data-steam aria-disabled="true">
@@ -58,8 +100,8 @@
 <section class="hero">
   <div class="hero-capas" data-parallax>
     <div class="hero-capa viva" style="background-image:url('img/cruce.webp')"></div>
-    <div class="hero-capa" style="background-image:url('img/cruce2.webp')"></div>
-    <div class="hero-capa" style="background-image:url('img/cruce3.webp')"></div>
+    <div class="hero-capa" data-fondo="img/cruce2.webp"></div>
+    <div class="hero-capa" data-fondo="img/cruce3.webp"></div>
   </div>
   <div class="hero-vineta"></div>
   <div class="envoltorio">
@@ -377,7 +419,7 @@
   </div>
 </section>
 
-<section class="sangre" style="background-image:url('img/local.webp')">
+<section class="sangre" data-fondo="img/local.webp">
   <div class="envoltorio">
     <h2 class="revela"><span class="kanji">貸店舗</span>Se alquila</h2>
     <p class="revela">
@@ -397,6 +439,40 @@
 
     <div class="novedades revela" data-novedades></div>
     <noscript><p data-sinjs>Las novedades necesitan JavaScript. Sin él, el resto de la página se lee igual.</p></noscript>
+  </div>
+</section>
+
+
+<section id="preguntas">
+  <div class="textura tex-olas"></div>
+  <div class="envoltorio">
+    <h2 class="revela"><span class="kanji">問</span>Preguntas</h2>
+    <div class="preguntas revela">
+      <details>
+        <summary>¿Cuándo sale?</summary>
+        <p>No hay fecha todavía. Lo que sí hay es una lista de deseados: es la forma de enterarte el día que se pueda comprar, y de paso lo que decide si Steam se lo enseña a alguien más.</p>
+      </details>
+      <details>
+        <summary>¿Hace falta saber de cartas coleccionables?</summary>
+        <p>No. El juego empieza contigo sin saber tasar — de eso va el prólogo— y te enseña por el camino. Las 540 cartas son de un juego inventado para esto, así que nadie parte con ventaja.</p>
+      </details>
+      <details>
+        <summary>¿Se puede jugar al juego de cartas, o es solo comprar y vender?</summary>
+        <p>Se juega. <b>一本勝負</b>: mazos de veinte cartas, tres copias como máximo y nunca más de las que tengas de verdad en la carpeta. Hay mesas en tu tienda y un torneo los domingos que además mueve los precios.</p>
+      </details>
+      <details>
+        <summary>¿Tiene multijugador?</summary>
+        <p>No. Es un juego de un jugador, con una campaña de cuatro actos que tiene final.</p>
+      </details>
+      <details>
+        <summary>¿En qué idiomas está?</summary>
+        <p>Español, inglés, alemán, francés e italiano, con los textos y los diálogos traducidos enteros. Los nombres japoneses de los sitios se quedan como están: aprenderlos es parte de aprender el barrio.</p>
+      </details>
+      <details>
+        <summary>¿Saldrá en Mac, Linux o consolas?</summary>
+        <p>De salida, Windows. No hay nada prometido para otras plataformas, y prefiero no prometerlo antes de tenerlo.</p>
+      </details>
+    </div>
   </div>
 </section>
 
@@ -428,12 +504,16 @@
         Las capturas son del juego en marcha y corresponden a una versión en
         desarrollo: lo que se ve aquí puede cambiar.
       </p>
+      <p class="legal">
+        Esta web <b>no usa cookies ni analítica</b>, no carga nada de terceros y
+        no recoge ningún dato tuyo. Las fuentes vienen de aquí mismo.
+      </p>
       <p class="legal">© <span data-anyo>2026</span> Ryujindo Games</p>
     </div>
   </div>
 </footer>
 
 <script src="js/novedades.js?v=c5e025"></script>
-<script src="js/web.js?v=5b4071"></script>
+<script src="js/web.js?v=ddb49c"></script>
 </body>
 </html>

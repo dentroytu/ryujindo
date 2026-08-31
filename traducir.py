@@ -49,6 +49,8 @@ ESTRUCTURA = [
     ('id="novedades"', 'id="news"'),
     ('href="#novedades"', 'href="#news"'),
     ('id="la-carta"', 'id="the-card"'),
+    ('id="preguntas"', 'id="questions"'),
+    ('href="#preguntas"', 'href="#questions"'),
     ('href="#la-carta"', 'href="#the-card"'),
     ('id="cifras"', 'id="numbers"'),
 ]
@@ -65,6 +67,26 @@ TEXTOS = {
 "De un cuarto de seis tatamis y una caja heredada a tu propia tienda de cartas. Tasa, elige a quién le vendes y hazte un nombre en el barrio.":
     "From a six-tatami room and one inherited box to a card shop of your own. Appraise, choose who you sell to, and make a name for yourself in the neighbourhood.",
 "Cómo se juega": "How it plays",
+"Preguntas": "Questions",
+"¿Cuándo sale?": "When does it come out?",
+"No hay fecha todavía. Lo que sí hay es una lista de deseados: es la forma de enterarte el día que se pueda comprar, y de paso lo que decide si Steam se lo enseña a alguien más.":
+    "No date yet. What there is, is a wishlist: it's how you find out the day it goes on sale, and it's also what decides whether Steam shows it to anyone else.",
+"¿Hace falta saber de cartas coleccionables?": "Do I need to know about trading cards?",
+"No. El juego empieza contigo sin saber tasar — de eso va el prólogo— y te enseña por el camino. Las 540 cartas son de un juego inventado para esto, así que nadie parte con ventaja.":
+    "No. The game starts with you unable to appraise anything — that's what the prologue is about — and teaches you along the way. The 540 cards belong to a game invented for this one, so nobody starts ahead.",
+"¿Se puede jugar al juego de cartas, o es solo comprar y vender?": "Can you actually play the card game, or is it only buying and selling?",
+"Se juega. <b>一本勝負</b>: mazos de veinte cartas, tres copias como máximo y nunca más de las que tengas de verdad en la carpeta. Hay mesas en tu tienda y un torneo los domingos que además mueve los precios.":
+    "You play it. <b>一本勝負</b>: twenty-card decks, three copies maximum, and never more copies than you really own. There are tables in your shop and a tournament on Sundays that also moves prices.",
+"¿Tiene multijugador?": "Is there multiplayer?",
+"No. Es un juego de un jugador, con una campaña de cuatro actos que tiene final.":
+    "No. It's single player, with a four-act campaign that has an ending.",
+"¿En qué idiomas está?": "What languages is it in?",
+"Español, inglés, alemán, francés e italiano, con los textos y los diálogos traducidos enteros. Los nombres japoneses de los sitios se quedan como están: aprenderlos es parte de aprender el barrio.":
+    "Spanish, English, German, French and Italian, with the interface and the dialogue fully translated. Japanese place names stay as they are: learning them is part of learning the neighbourhood.",
+"¿Saldrá en Mac, Linux o consolas?": "Will it come to Mac, Linux or consoles?",
+"De salida, Windows. No hay nada prometido para otras plataformas, y prefiero no prometerlo antes de tenerlo.":
+    "Windows at launch. Nothing is promised for other platforms, and I'd rather not promise it before it exists.",
+
 "De no saber lo que tienes a que el barrio sepa tu nombre":
     "From not knowing what you have to the neighbourhood knowing your name",
 
@@ -116,6 +138,78 @@ TEXTOS = {
 # Bloques largos: párrafos enteros, con su sangrado. Se sustituyen aparte para
 # que el diccionario de arriba siga siendo legible.
 BLOQUES = [
+("""<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Ryujindo Card Shop",
+  "alternateName": "龍神堂",
+  "url": "https://dentroytu.github.io/ryujindo/",
+  "image": "https://dentroytu.github.io/ryujindo/img/og.jpg",
+  "description": "Simulador de tienda de cartas TCG ambientado en Japón. De un cuarto de seis tatamis y una caja heredada a tu propia tienda: tasa, criba y decide por dónde vendes cada carta.",
+  "inLanguage": [
+    "es",
+    "en",
+    "de",
+    "fr",
+    "it"
+  ],
+  "genre": [
+    "Simulation",
+    "Indie",
+    "Strategy"
+  ],
+  "gamePlatform": [
+    "PC",
+    "Windows"
+  ],
+  "playMode": "SinglePlayer",
+  "author": {
+    "@type": "Organization",
+    "name": "Ryujindo Games"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Ryujindo Games"
+  }
+}
+</script>""",
+ """<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "Ryujindo Card Shop",
+  "alternateName": "龍神堂",
+  "url": "https://dentroytu.github.io/ryujindo/en/",
+  "image": "https://dentroytu.github.io/ryujindo/img/og.jpg",
+  "description": "A TCG card shop simulator set in Japan. From a six-tatami room and one inherited box to a shop of your own: appraise, sort and decide where each card goes out.",
+  "inLanguage": [
+    "es",
+    "en",
+    "de",
+    "fr",
+    "it"
+  ],
+  "genre": [
+    "Simulation",
+    "Indie",
+    "Strategy"
+  ],
+  "gamePlatform": [
+    "PC",
+    "Windows"
+  ],
+  "playMode": "SinglePlayer",
+  "author": {
+    "@type": "Organization",
+    "name": "Ryujindo Games"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Ryujindo Games"
+  }
+}
+</script>"""),
 ("""      De un cuarto de seis tatamis y una caja heredada a tu propia tienda de
       cartas. Aprende a tasar, elige a quién le vendes y hazte un nombre en el
       barrio.""",
@@ -216,6 +310,10 @@ BLOQUES = [
  """          Four acts, from the room full of moving boxes to signing the lease, with a
           thread of messages tying them together. There is an ending, and you can reach
           it."""),
+("""        Esta web <b>no usa cookies ni analítica</b>, no carga nada de terceros y
+        no recoge ningún dato tuyo. Las fuentes vienen de aquí mismo.""",
+ """        This site <b>uses no cookies and no analytics</b>, loads nothing from
+        third parties and collects no data about you. The fonts are served from here."""),
 ("""        Las capturas son del juego en marcha y corresponden a una versión en
         desarrollo: lo que se ve aquí puede cambiar.""",
  """        Screenshots are from the running game and show a build in development:

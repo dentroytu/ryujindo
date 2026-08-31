@@ -140,6 +140,40 @@ const TEXTOS = {
     }
   }
 
+  /* ── Los fondos que no se ven todavía, después ───────────────────────── */
+  /*
+     La segunda toma del hero no hace falta hasta los seis segundos y la tercera
+     hasta los doce; el fondo del bloque del local, hasta que se llega abajo.
+     Cargarlos con el resto son 180 KB compitiendo con lo único que el visitante
+     está mirando, que es la primera pantalla.
+
+     Sin JavaScript no se cargan nunca — y no pasa nada: la primera toma del
+     hero es una imagen normal y el bloque del local se lee sobre su color de
+     fondo. Se pierde adorno, no contenido.
+  */
+
+  document.querySelectorAll("[data-fondo]").forEach(function (n) {
+    const src = n.getAttribute("data-fondo");
+    function traer() {
+      const img = new Image();
+      img.onload = function () { n.style.backgroundImage = "url('" + src + "')"; };
+      img.src = src;
+    }
+    // El hero, en cuanto la página ha terminado de cargar lo suyo; el resto,
+    // cuando se acerca por la ventana.
+    if (n.classList.contains("hero-capa")) {
+      if (document.readyState === "complete") traer();
+      else window.addEventListener("load", traer, { once: true });
+    } else if ("IntersectionObserver" in window) {
+      const ojo = new IntersectionObserver(function (e) {
+        if (e[0].isIntersecting) { ojo.disconnect(); traer(); }
+      }, { rootMargin: "300px" });
+      ojo.observe(n);
+    } else {
+      traer();
+    }
+  });
+
   /* ── El hero encadena varias tomas ───────────────────────────────────── */
   /*
      Una captura fija se lee como un cartel; tres encadenadas con un fundido

@@ -122,17 +122,6 @@ button, a, [role="button"] { cursor: pointer; }
   overflow: hidden;
 }
 
-/* El fondo va en su propia capa para poder moverlo más despacio que el texto:
-   es lo único de «profundidad» que sale gratis y no cuesta un motor 3D. */
-.hero-fondo {
-  position: absolute;
-  inset: -8% 0 0 0;
-  background-image: url("../img/cruce.webp");
-  background-size: cover;
-  background-position: center 42%;
-  will-change: transform;
-}
-
 /* El velo cae en curva suave y no en cuadrática: con una caída cuadrática, al
    llegar al texto ya no queda velo — el menú del propio juego se dejó el título
    a un 0,006 de alfa cuatro veces por eso. */
@@ -496,8 +485,7 @@ footer .legal { color: var(--tinta-tenue); font-size: 14px; }
   .rasgo:hover, .galeria figure:hover, .boton:hover { transform: none; }
   .revela { opacity: 1; transform: none; }
   .revela.dentro { transition: none; }
-  .hero-fondo { transform: none !important; }
-}
+  }
 
 /* ═══════════════════════════════════════════════════════════════════════════
    SEGUNDA PASADA — lo que separa «una landing correcta» de una que parece de
@@ -812,6 +800,7 @@ h2 { font-size: clamp(2.1rem, 4.6vw, 3.1rem); }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-capa { transition: none; }
+  .hero-capas { transform: none !important; }
   .hero-abajo::after { animation: none; }
   .carta { transition: none; }
 }
@@ -1054,4 +1043,69 @@ h2 { font-size: clamp(2.1rem, 4.6vw, 3.1rem); }
 
 @media (prefers-reduced-motion: reduce) {
   .menu-indicador { transition: opacity var(--paso) ease; }
+}
+
+/* ── Preguntas ───────────────────────────────────────────────────────────────
+   Con `<details>` del navegador: se abre y se cierra sin una línea de
+   JavaScript, se puede buscar dentro con Cmd+F aunque esté cerrada, y un lector
+   de pantalla la anuncia como lo que es. Un acordeón hecho a mano no hace
+   ninguna de las tres cosas sin trabajo extra.                               */
+
+.preguntas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: var(--e-md) var(--e-lg);
+  align-items: start;
+}
+
+.preguntas details {
+  background: var(--fondo-2);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 2px var(--e-lg);
+  transition: border-color var(--paso) ease;
+}
+
+.preguntas details[open] { border-color: var(--borde-vivo); }
+.preguntas details:hover { border-color: var(--borde-vivo); }
+
+.preguntas summary {
+  font-family: var(--titulo);
+  font-size: 1.04rem;
+  font-weight: 700;
+  padding: var(--e-md) 26px var(--e-md) 0;
+  cursor: pointer;
+  list-style: none;
+  position: relative;
+}
+
+.preguntas summary::-webkit-details-marker { display: none; }
+
+/* La cruz que gira: dos trazos, sin imagen ni tipografía de iconos */
+.preguntas summary::after,
+.preguntas summary::before {
+  content: "";
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  width: 13px;
+  height: 1.5px;
+  background: var(--oro);
+  transition: transform var(--paso) ease, opacity var(--paso) ease;
+}
+
+.preguntas summary::before { transform: translateY(-50%); }
+.preguntas summary::after  { transform: translateY(-50%) rotate(90deg); }
+.preguntas details[open] summary::after { transform: translateY(-50%) rotate(0deg); opacity: 0; }
+
+.preguntas p {
+  margin: 0 0 var(--e-md);
+  color: var(--tinta-suave);
+  font-size: 15.5px;
+}
+
+.preguntas p b { color: var(--tinta); }
+
+@media (prefers-reduced-motion: reduce) {
+  .preguntas summary::after, .preguntas summary::before { transition: none; }
 }

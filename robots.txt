@@ -1,0 +1,7 @@
+# Ryujindo Card Shop — https://dentroytu.github.io/ryujindo/
+# Todo es público y se puede indexar. No hay nada que esconder aquí: la web no
+# tiene panel, ni formularios, ni datos de nadie.
+User-agent: *
+Allow: /
+
+Sitemap: https://dentroytu.github.io/ryujindo/sitemap.xml
