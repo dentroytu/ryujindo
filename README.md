@@ -17,6 +17,8 @@ JavaScript, así que se abre con doble clic y se publica copiando la carpeta.
   img/                lo genera imagenes.py — no se edita a mano
   imagenes.py         prepara capturas y marca desde el juego y desde arte/marca
   comprobar.py        dice si algo está roto antes de subirlo
+  traducir.py         genera en/index.html de index.html — solo se toca su diccionario
+  versionar.py        pone ?v=<hash> a css y js, para que la caché no mezcle versiones
   servir.py           la sirve en local para verla como se verá
   arte/marca/         los SVG de los que salen el logotipo y el favicon
 ```
@@ -66,8 +68,13 @@ ayer y la otra mitad no existen todavía.
 
 ```bash
 python3 servir.py        # http://localhost:8765
+python3 traducir.py      # regenera la página inglesa
+python3 versionar.py     # sella css y js contra la caché
 python3 comprobar.py     # devuelve 1 si algo está roto
 ```
+
+Los tres últimos, **en ese orden, antes de cada `git push`**. El comprobador
+falla si te saltas alguno.
 
 El comprobador mira seis cosas, y las seis están escritas porque ninguna la
 canta el navegador: que todo lo que se referencia desde el HTML exista, que

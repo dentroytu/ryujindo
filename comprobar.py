@@ -55,6 +55,7 @@ for lang, pagina in PAGINAS:
     for ref in refs:
         if ref.startswith(("http://", "https://", "mailto:", "data:")):
             continue
+        ref = ref.split("?")[0]        # el ?v= de la caché no es parte del nombre
         destino = os.path.normpath(os.path.join(base, ref))
         if not os.path.exists(destino):
             fallo("%s · referencia a algo que no existe: %s" % (pagina, ref))
@@ -195,6 +196,29 @@ if Image is not None:
                       "la imagen saldrá descuadrada"
                       % (pagina, os.path.basename(src), w, h, dicho,
                          im.width, im.height, real))
+
+# ── 8 · La hoja de estilo y el JavaScript llevan su versión al día ──────────
+#
+# Sin esto, publicar un cambio deja a quien ya haya visitado la web con el CSS
+# de antes y el HTML de ahora durante los diez minutos que GitHub Pages cachea
+# — y esa mezcla rompe cosas que ninguna de las dos versiones rompía por su
+# cuenta. `versionar.py` pone un resumen del contenido en la URL; esto se
+# limita a comprobar que no se ha olvidado.
+
+import hashlib
+
+for rel in ("css/fuentes.css", "css/estilo.css", "js/novedades.js", "js/web.js"):
+    with io.open(os.path.join(AQUI, rel), "rb") as f:
+        v = hashlib.sha256(f.read()).hexdigest()[:6]
+    for lang, pagina in PAGINAS:
+        html = leer(pagina)
+        m = re.search(re.escape(rel) + r"\?v=([0-9a-f]+)", html)
+        if not m:
+            fallo("%s · %s se enlaza sin versión: al publicar, un navegador con "
+                  "caché mezclará ficheros viejos y nuevos" % (pagina, rel))
+        elif m.group(1) != v:
+            fallo("%s · %s enlaza la versión %s y el fichero es %s: falta pasar "
+                  "versionar.py" % (pagina, rel, m.group(1), v))
 
 # ── Resultado ───────────────────────────────────────────────────────────────
 
