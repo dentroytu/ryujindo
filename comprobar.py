@@ -132,6 +132,33 @@ for lang, pagina in PAGINAS:
     if "store.steampowered.com" in leer(pagina):
         fallo("%s · hay un enlace de Steam escrito a mano; va en js/web.js" % pagina)
 
+# ── 6 · La vista previa del enlace apunta a algo absoluto ───────────────────
+#
+# `og:image` en relativo se ve bien en la página y falla justo donde importa:
+# buena parte de los clientes de chat y de las redes no resuelven rutas
+# relativas, así que el enlace se pega sin imagen y nadie se entera. Y las dos
+# páginas tienen que hablar del mismo sitio, o una de las dos manda a la gente
+# a un dominio viejo el día que esto se mueva.
+
+dominios = set()
+for lang, pagina in PAGINAS:
+    html = leer(pagina)
+    for etiqueta in ("og:image", "og:url"):
+        m = re.search(r'property="%s" content="([^"]+)"' % etiqueta, html)
+        if not m:
+            fallo("%s · falta la etiqueta %s" % (pagina, etiqueta))
+        elif not m.group(1).startswith("http"):
+            fallo("%s · %s va en relativo y tiene que ser una URL absoluta: %s"
+                  % (pagina, etiqueta, m.group(1)))
+        else:
+            dominios.add(re.match(r"https?://[^/]+", m.group(1)).group(0))
+    m = re.search(r'rel="canonical" href="([^"]+)"', html)
+    if m and not m.group(1).startswith("http"):
+        fallo("%s · el canonical va en relativo: %s" % (pagina, m.group(1)))
+
+if len(dominios) > 1:
+    fallo("las dos páginas apuntan a dominios distintos: %s" % ", ".join(sorted(dominios)))
+
 # ── Resultado ───────────────────────────────────────────────────────────────
 
 print("Web · %d páginas · %d capturas · %d novedades"
