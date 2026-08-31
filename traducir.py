@@ -60,10 +60,10 @@ ESTRUCTURA = [
 TEXTOS = {
 "Ryujindo Card Shop — simulador de tienda de cartas en Japón":
     "Ryujindo Card Shop — a card shop sim set in Japan",
-"Heredas las cajas de tu abuela y un cuarto de seis tatamis. Aprende a tasar, elige por dónde vendes y llega a alquilar el local de la esquina. Simulador de tienda de cartas TCG ambientado en Japón.":
-    "You inherit your grandmother's boxes and a six-tatami room. Learn to appraise, choose where you sell, and work your way to the empty shop around the corner. A TCG card shop simulator set in Japan.",
-"Te compró la carta de tu abuela por una décima parte de lo que valía. Aprende lo suficiente para que no vuelva a pasar.":
-    "He bought your grandmother's card for a tenth of what it was worth. Learn enough that it doesn't happen again.",
+"Simulador de tienda de cartas TCG en Japón. Tasa, criba y decide por dónde vendes cada carta hasta poder alquilar el local de la esquina.":
+    "A TCG card shop simulator set in Japan. Appraise, sort and decide where each card goes out, until you can take on the empty shop around the corner.",
+"Una tienda de cartas en un barrio de Tokio. Aprende a tasar, elige a quién le vendes y gánate la persiana de la esquina.":
+    "A card shop in a Tokyo neighbourhood. Learn to appraise, choose who you sell to, and earn the shutter on the corner.",
 "Cómo se juega": "How it plays",
 "La carta": "The card",
 "Capturas": "Screenshots",
@@ -113,12 +113,10 @@ TEXTOS = {
 # Bloques largos: párrafos enteros, con su sangrado. Se sustituyen aparte para
 # que el diccionario de arriba siga siendo legible.
 BLOQUES = [
-("""      Te compró la carta de tu abuela por una décima parte de lo que valía.
-      No te engañó: no sabías lo que tenías. Aprende lo suficiente para que
-      no vuelva a pasar.""",
- """      He bought your grandmother's card for a tenth of what it was worth.
-      He didn't cheat you: you didn't know what you had. Learn enough that it
-      doesn't happen again."""),
+("""      Una tienda de cartas en un barrio de Tokio. Aprende a tasar, elige a quién
+      le vendes y gánate la persiana de la esquina.""",
+ """      A card shop in a Tokyo neighbourhood. Learn to appraise, choose who you sell
+      to, and earn the shutter on the corner."""),
 ("""      No es un juego de reponer estantes. Es un juego de <strong>saber cuánto vale
       lo que tienes delante</strong>, y de decidir a quién se lo vendes.""",
  """      This isn't a game about restocking shelves. It's a game about <strong>knowing
