@@ -36,6 +36,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from collections import deque
 
 try:
     from PIL import Image
@@ -79,21 +80,17 @@ CAPTURAS = [
     ("72-konbini-dentro.png",   "konbini"),
 ]
 
-# La marca. El origen son los SVG de `arte/marca/`, que es lo que se dibujó:
-# vectorial se ve nítido a cualquier tamaño y en cualquier pantalla, y en la web
-# va tal cual. Lo que NO puede ser vectorial —el favicon y la imagen de enlace,
-# que las consumen navegadores y chats como mapa de bits— se rasteriza aquí del
-# mismo SVG. Un PNG dibujado aparte sería una segunda copia de la marca, y una
-# segunda copia es la que se queda vieja (trampa 112).
+# La marca. El origen es **una sola hoja PNG con alfa**: el logotipo en el
+# estilo del juego —low poly, la tienda con su torii y su noren— del que se
+# recortan las dos piezas que hacen falta. Se separan por grupos de píxeles que
+# se tocan, no por coordenadas escritas a mano: el día que la hoja se rehaga con
+# las piezas en otro sitio, un recorte por coordenadas devolvería basura sin
+# avisar.
 MARCA_DIR = os.path.join(AQUI, "arte", "marca")
+HOJA = "ryujindo-logo-3d.png"
 
-MARCA = [
-    ("ryujindo_horizontal.svg", "logotipo.svg"),   # el hero
-    ("ryujindo_vertical.svg",   "apilado.svg"),    # de repuesto, para cajas altas
-    ("ryujindo_emblem.svg",     "emblema.svg"),    # la barra
-]
-
-# Rasterizados del SVG, para donde no vale un vector.
+ANCHO_LOGO = 1800      # el hero, con margen para pantallas densas
+ANCHO_EMBLEMA = 512    # la barra
 FAVICON = 180
 
 # La imagen que se ve al pegar el enlace en un chat o en una red. Se compone del
@@ -117,53 +114,67 @@ def escalar(origen, destino, ancho, calidad=CALIDAD):
     return os.path.getsize(destino), im.size
 
 
-def rasterizar(svg, ancho, salida):
+def piezas_de_marca(hoja):
     """
-    Convierte un SVG en PNG con fondo transparente, al ancho pedido.
+    Separa el logotipo y el emblema de la hoja de marca.
 
-    Lo hace el navegador que ya está en la máquina: Pillow no lee SVG, y meter
-    un rasterizador propio para dos ficheros sería más código del que hay web.
-    Si no hay navegador, se dice — y se dice qué falta, no «error».
+    No se recorta por coordenadas: se buscan los grupos de píxeles que se tocan
+    —sobre una copia reducida, cien veces más rápido y con la misma caja— y se
+    identifican por su forma. El logotipo es el que es mucho más ancho que alto;
+    el emblema, el que es casi cuadrado. Con coordenadas escritas a mano, rehacer
+    la hoja con las piezas en otro sitio devolvería dos recortes mal sin avisar.
     """
-    chrome = None
-    for c in ("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
-              "/Applications/Chromium.app/Contents/MacOS/Chromium",
-              "/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge"):
-        if os.path.exists(c):
-            chrome = c
-            break
-    if chrome is None:
-        sys.exit("para rasterizar la marca hace falta Chrome, Chromium o Edge "
-                 "instalado. Todo lo demás de la web se genera sin él.")
+    im = Image.open(hoja).convert("RGBA")
+    W, H = im.size
+    esc = 4
+    peq = im.resize((W // esc, H // esc), Image.NEAREST)
+    alfa = peq.split()[3].load()
+    w, h = peq.size
 
-    # El SVG dice su tamaño en la cabecera; de ahí sale el alto que toca.
-    cabecera = io.open(svg, encoding="utf-8").read(400)
-    w = float(re.search(r'width="([\d.]+)"', cabecera).group(1))
-    h = float(re.search(r'height="([\d.]+)"', cabecera).group(1))
-    alto = int(round(ancho * h / w))
+    visto = [[False] * w for _ in range(h)]
+    cajas = []
+    for y0 in range(h):
+        for x0 in range(w):
+            if visto[y0][x0] or alfa[x0, y0] <= 100:
+                continue
+            cola = deque([(x0, y0)])
+            visto[y0][x0] = True
+            x1 = x2 = x0
+            y1 = y2 = y0
+            n = 0
+            while cola:
+                x, y = cola.popleft()
+                n += 1
+                x1, x2 = min(x1, x), max(x2, x)
+                y1, y2 = min(y1, y), max(y2, y)
+                for dx in (-1, 0, 1):
+                    for dy in (-1, 0, 1):
+                        nx, ny = x + dx, y + dy
+                        if (0 <= nx < w and 0 <= ny < h
+                                and not visto[ny][nx] and alfa[nx, ny] > 100):
+                            visto[ny][nx] = True
+                            cola.append((nx, ny))
+            if n > 300:
+                cajas.append((x1 * esc, y1 * esc, (x2 + 1) * esc, (y2 + 1) * esc))
 
-    tmp = tempfile.mkdtemp()
-    envoltorio = os.path.join(tmp, "marca.html")
-    io.open(envoltorio, "w", encoding="utf-8").write(
-        '<!doctype html><meta charset="utf-8">'
-        '<style>html,body{margin:0;padding:0;background:transparent}'
-        'img{display:block;width:%dpx;height:%dpx}</style>'
-        '<img src="%s">' % (ancho, alto, "file://" + os.path.abspath(svg)))
+    if len(cajas) != 2:
+        sys.exit("la hoja de marca tiene %d piezas y se esperaban 2 —el logotipo "
+                 "y el emblema—: %s" % (len(cajas), hoja))
 
-    subprocess.run([chrome, "--headless=new", "--disable-gpu", "--hide-scrollbars",
-                    "--force-device-scale-factor=1",
-                    "--default-background-color=00000000",
-                    "--window-size=%d,%d" % (ancho, alto),
-                    "--virtual-time-budget=4000",
-                    "--screenshot=" + os.path.abspath(salida),
-                    "--allow-file-access-from-files",
-                    "file://" + envoltorio],
-                   stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    shutil.rmtree(tmp, ignore_errors=True)
+    cajas.sort(key=lambda c: -(c[2] - c[0]) / float(c[3] - c[1]))
+    ancha, cuadrada = cajas[0], cajas[1]
+    if (ancha[2] - ancha[0]) < 2 * (ancha[3] - ancha[1]):
+        sys.exit("la pieza más ancha de la hoja no parece el logotipo")
 
-    if not os.path.exists(salida):
-        sys.exit("el navegador no llegó a escribir %s" % salida)
-    return Image.open(salida).convert("RGBA")
+    def ajustada(caja):
+        trozo = im.crop(caja)
+        bb = trozo.split()[3].getbbox()      # a su tinta, sin aire alrededor
+        return trozo.crop(bb) if bb else trozo
+
+    # El logotipo que va al hero es la hoja ENTERA —la tienda y el texto juntos,
+    # que es como está compuesta—; el emblema es solo la tienda.
+    entero = im.crop(im.split()[3].getbbox())
+    return entero, ajustada(cuadrada)
 
 
 def imagen_de_enlace(captura, logotipo, salida):
@@ -229,8 +240,8 @@ def main():
 
     faltan = [f for f, _ in CAPTURAS if not os.path.exists(os.path.join(args.shots, f))]
     marca_dir = args.marca
-    faltan += [os.path.join(marca_dir, f) for f, _ in MARCA
-               if not os.path.exists(os.path.join(marca_dir, f))]
+    if not os.path.exists(os.path.join(marca_dir, HOJA)):
+        faltan.append(os.path.join(marca_dir, HOJA))
     if faltan:
         sys.exit("faltan estos originales, hay que generarlos con el juego:\n  "
                  + "\n  ".join(faltan))
@@ -247,29 +258,39 @@ def main():
             print("  %-22s %4d×%-4d %6.0f KB" % (os.path.basename(salida),
                                                  tam[0], tam[1], peso / 1024))
 
-    for fuente, nombre in MARCA:
+    hoja = os.path.join(marca_dir, HOJA)
+    logo, emblema = piezas_de_marca(hoja)
+
+    for pieza, nombre, ancho in ((logo, "logotipo.webp", ANCHO_LOGO),
+                                 (emblema, "emblema.webp", ANCHO_EMBLEMA)):
+        im = pieza
+        if im.width > ancho:
+            im = im.resize((ancho, round(im.height * ancho / im.width)), Image.LANCZOS)
         salida = os.path.join(DESTINO, nombre)
-        shutil.copyfile(os.path.join(marca_dir, fuente), salida)
+        im.save(salida, "WEBP", quality=90, method=6)
         peso = os.path.getsize(salida)
         total += peso
-        print("  %-22s vectorial    %6.0f KB" % (nombre, peso / 1024))
+        print("  %-22s %4d×%-4d %6.0f KB" % (nombre, im.width, im.height, peso / 1024))
 
+    # El favicon va en PNG: es lo que entienden todos los navegadores y los
+    # atajos del escritorio, y a 180 px pesa lo mismo en los dos formatos.
+    fav = emblema.resize((FAVICON, round(emblema.height * FAVICON / emblema.width)),
+                         Image.LANCZOS)
     salida = os.path.join(DESTINO, "favicon.png")
-    rasterizar(os.path.join(marca_dir, "ryujindo_emblem.svg"), FAVICON, salida)
+    fav.save(salida, "PNG", optimize=True)
     peso = os.path.getsize(salida)
     total += peso
     print("  %-22s %4d px      %6.0f KB" % ("favicon.png", FAVICON, peso / 1024))
 
-    logo = rasterizar(os.path.join(marca_dir, "ryujindo_horizontal.svg"),
-                      int(OG_ANCHO * 0.66),
-                      os.path.join(DESTINO, ".logo-og.png"))
     salida = os.path.join(DESTINO, "og.jpg")
-    peso, tam = imagen_de_enlace(os.path.join(args.shots, CAPTURAS[0][0]), logo, salida)
-    os.remove(os.path.join(DESTINO, ".logo-og.png"))
+    ancho_og = int(OG_ANCHO * 0.78)
+    logo_og = logo.resize((ancho_og, round(logo.height * ancho_og / logo.width)),
+                          Image.LANCZOS)
+    peso, tam = imagen_de_enlace(os.path.join(args.shots, CAPTURAS[0][0]), logo_og, salida)
     total += peso
     print("  %-22s %4d×%-4d %6.0f KB" % ("og.jpg", tam[0], tam[1], peso / 1024))
 
-    print("\n%d imágenes · %.1f MB en total" % (len(CAPTURAS) * 2 + len(MARCA) + 2,
+    print("\n%d imágenes · %.1f MB en total" % (len(CAPTURAS) * 2 + 4,
                                                 total / 1024 / 1024))
 
 
