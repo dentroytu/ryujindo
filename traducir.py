@@ -62,9 +62,12 @@ TEXTOS = {
     "Ryujindo Card Shop — a card shop sim set in Japan",
 "Simulador de tienda de cartas TCG en Japón. Tasa, criba y decide por dónde vendes cada carta hasta poder alquilar el local de la esquina.":
     "A TCG card shop simulator set in Japan. Appraise, sort and decide where each card goes out, until you can take on the empty shop around the corner.",
-"Una tienda de cartas en un barrio de Tokio. Aprende a tasar, elige a quién le vendes y gánate la persiana de la esquina.":
-    "A card shop in a Tokyo neighbourhood. Learn to appraise, choose who you sell to, and earn the shutter on the corner.",
+"De un cuarto de seis tatamis y una caja heredada a tu propia tienda de cartas. Tasa, elige a quién le vendes y hazte un nombre en el barrio.":
+    "From a six-tatami room and one inherited box to a card shop of your own. Appraise, choose who you sell to, and make a name for yourself in the neighbourhood.",
 "Cómo se juega": "How it plays",
+"De no saber lo que tienes a que el barrio sepa tu nombre":
+    "From not knowing what you have to the neighbourhood knowing your name",
+
 "La carta": "The card",
 "Capturas": "Screenshots",
 "Novedades": "News",
@@ -82,7 +85,7 @@ TEXTOS = {
     "From being ripped off to your name on a shutter",
 "El problema: no sabes lo que tienes": "The problem: you don't know what you have",
 "La solución: tasar antes de vender": "The fix: appraise before you sell",
-"La acción: la persiana de la esquina": "The move: the shutter on the corner",
+"Crecer: de un cuarto prestado a tu propia tienda": "Growing: from a borrowed room to a shop of your own",
 "Una de las 540": "One of the 540",
 "Pasa el ratón por encima": "Move your pointer over it",
 "Miko del Dios Dragón": "Miko of the Dragon God",
@@ -91,7 +94,7 @@ TEXTOS = {
 "Debilidad · Luz ×2": "Weakness · Light ×2",
 "Lo que hay dentro": "What's in it",
 "Se alquila": "To let",
-"Ponle tu nombre a la persiana": "Put your name on that shutter",
+"Empieza sin nada. Acaba con tienda.": "Start with nothing. End up with a shop.",
 "Añádelo a tu lista de deseados y te enteras el día que abra.":
     "Add it to your wishlist and you'll hear the day it opens.",
 "540 cartas, y todas significan algo": "540 cards, and all of them mean something",
@@ -113,10 +116,12 @@ TEXTOS = {
 # Bloques largos: párrafos enteros, con su sangrado. Se sustituyen aparte para
 # que el diccionario de arriba siga siendo legible.
 BLOQUES = [
-("""      Una tienda de cartas en un barrio de Tokio. Aprende a tasar, elige a quién
-      le vendes y gánate la persiana de la esquina.""",
- """      A card shop in a Tokyo neighbourhood. Learn to appraise, choose who you sell
-      to, and earn the shutter on the corner."""),
+("""      De un cuarto de seis tatamis y una caja heredada a tu propia tienda de
+      cartas. Aprende a tasar, elige a quién le vendes y hazte un nombre en el
+      barrio.""",
+ """      From a six-tatami room and one inherited box to a card shop of your own.
+      Learn to appraise, choose who you sell to, and make a name for yourself in
+      the neighbourhood."""),
 ("""      No es un juego de reponer estantes. Es un juego de <strong>saber cuánto vale
       lo que tienes delante</strong>, y de decidir a quién se lo vendes.""",
  """      This isn't a game about restocking shelves. It's a game about <strong>knowing
