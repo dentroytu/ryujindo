@@ -112,70 +112,6 @@ button, a, [role="button"] { cursor: pointer; }
   padding: 0 var(--e-lg);
 }
 
-/* ── Barra ───────────────────────────────────────────────────────────────── */
-
-.barra {
-  position: sticky;
-  top: 0;
-  z-index: 50;
-  background: rgba(15, 23, 42, .88);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--borde);
-}
-
-.barra .envoltorio {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  height: 64px;
-  /* Una barra que no cabe empuja el ancho del documento y desborda el resto de
-     la página tres pantallas más abajo, así que se acota aquí. */
-  overflow: hidden;
-}
-
-.barra-marca {
-  font-family: var(--titulo);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  color: var(--tinta);
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.barra-marca img { width: 30px; height: 32px; }
-.barra-marca .kanji { color: var(--rojo); font-weight: 600; }
-
-.barra nav {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  font-size: 15px;
-}
-
-.barra nav a { color: var(--tinta-suave); text-decoration: none; transition: color var(--paso) ease; }
-.barra nav a:hover { color: var(--tinta); }
-
-.idiomas {
-  display: flex;
-  gap: 6px;
-  border-left: 1px solid var(--borde);
-  padding-left: 20px;
-}
-
-.idiomas a {
-  color: var(--tinta-tenue);
-  text-decoration: none;
-  font-size: 14px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-}
-
-.idiomas a[aria-current="true"] { color: var(--tinta); font-weight: 700; }
-
 /* ── Hero ────────────────────────────────────────────────────────────────── */
 
 .hero {
@@ -886,65 +822,6 @@ h2 { font-size: clamp(2.1rem, 4.6vw, 3.1rem); }
    una barra igual a la de cualquier sitio.
    ═══════════════════════════════════════════════════════════════════════════ */
 
-/* ── La barra ────────────────────────────────────────────────────────────────
-   Sobre el hero va transparente y deja ver la ciudad; al bajar se cierra. Una
-   barra opaca desde el primer píxel recorta la imagen que la página viene a
-   enseñar, y eso es justo lo que se paga en la primera impresión.            */
-
-.barra {
-  background: transparent;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: 1px solid transparent;
-  transition: background var(--paso) ease, border-color var(--paso) ease,
-              backdrop-filter var(--paso) ease;
-}
-
-.barra.pegada {
-  background: rgba(15, 23, 42, .90);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom-color: var(--borde);
-}
-
-/* El filo: un hilo de tinta y oro bajo la barra, del ancho de la página. No es
-   un adorno gratuito — es lo que la separa del mundo cuando va transparente. */
-.barra::after {
-  content: "";
-  position: absolute;
-  left: 0; right: 0; bottom: -1px;
-  height: 1px;
-  background: linear-gradient(90deg,
-    transparent, rgba(232,86,75,.5) 18%, rgba(224,166,60,.55) 50%,
-    rgba(232,86,75,.5) 82%, transparent);
-  opacity: 0;
-  transition: opacity var(--paso) ease;
-}
-
-.barra.pegada::after { opacity: 1; }
-
-.barra .envoltorio { position: relative; }
-
-/* Los enlaces se subrayan al pasar, y el subrayado crece del centro. */
-.barra nav > a {
-  position: relative;
-  padding: 4px 0;
-}
-
-.barra nav > a::after {
-  content: "";
-  position: absolute;
-  left: 50%; right: 50%; bottom: 0;
-  height: 1.5px;
-  background: var(--oro);
-  transition: left var(--paso) ease, right var(--paso) ease;
-}
-
-.barra nav > a:hover::after { left: 0; right: 0; }
-
-/* El botón de la barra, con el icono de Steam delante */
-.boton svg { width: 17px; height: 17px; flex: 0 0 auto; }
-.boton-barra svg { width: 15px; height: 15px; }
 
 /* ── Las cifras ──────────────────────────────────────────────────────────────
    Cada una con su kanji encima y su separador: cinco números sueltos entre dos
@@ -1003,4 +880,178 @@ h2 { font-size: clamp(2.1rem, 4.6vw, 3.1rem); }
 @media (max-width: 620px) {
   .cifra + .cifra::before { display: none; }
   .cifra { padding: var(--e-md) var(--e-sm); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LA BARRA — cuarta pasada.
+
+   Lo anterior era el patrón de 2010: pegada al borde de lado a lado, marca a la
+   izquierda, enlaces a la derecha. Ahora es una **píldora que flota** sobre la
+   página, con desenfoque y sombra, y un **indicador que se desliza a la sección
+   que estás leyendo** — que es la diferencia entre una lista de enlaces y algo
+   que sabe dónde estás.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.barra {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 60;
+  padding: 14px 16px;
+  pointer-events: none;          /* el aire de alrededor no intercepta clics */
+  transition: padding var(--paso) ease;
+}
+
+.barra.pegada { padding-top: 10px; }
+
+.barra .envoltorio {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  height: 60px;
+  padding: 0 10px 0 16px;
+  max-width: 1120px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(11, 17, 32, .58);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  box-shadow: 0 10px 34px rgba(0,0,0,.32);
+  transition: background var(--paso) ease, border-color var(--paso) ease,
+              box-shadow var(--paso) ease, transform var(--paso) ease;
+  overflow: visible;
+}
+
+.barra.pegada .envoltorio {
+  background: rgba(11, 17, 32, .86);
+  border-color: rgba(255,255,255,.14);
+  box-shadow: 0 14px 40px rgba(0,0,0,.46);
+}
+
+/* El hilo de tinta y oro, ahora por dentro del borde de la píldora */
+.barra .envoltorio::after {
+  content: "";
+  position: absolute;
+  left: 22px; right: 22px; bottom: -1px;
+  height: 1px;
+  border-radius: 1px;
+  background: linear-gradient(90deg,
+    transparent, rgba(232,86,75,.55) 22%, rgba(224,166,60,.65) 50%,
+    rgba(232,86,75,.55) 78%, transparent);
+  opacity: .75;
+}
+
+.barra-marca {
+  font-family: var(--titulo);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  color: var(--tinta);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.barra-marca img { width: 30px; height: 29px; }
+.barra-marca .kanji { color: var(--rojo); font-weight: 600; }
+
+/* ── Los enlaces, con la píldora que se desliza ──────────────────────────── */
+
+.barra nav {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+/* El indicador va DEBAJO de los enlaces y se mueve a la posición del que toca.
+   Es un solo elemento que se desplaza, no un fondo por enlace: así el
+   movimiento es continuo y se lee como «vas por aquí». */
+.menu-indicador {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 34px;
+  transform: translateY(-50%);
+  border-radius: 10px;
+  background: rgba(255,255,255,.09);
+  border: 1px solid rgba(255,255,255,.10);
+  transition: transform 320ms cubic-bezier(.22,.8,.3,1),
+              width 320ms cubic-bezier(.22,.8,.3,1),
+              opacity var(--paso) ease;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu.tiene-donde .menu-indicador { opacity: 1; }
+
+.menu a {
+  position: relative;
+  z-index: 1;
+  padding: 7px 13px;
+  border-radius: 10px;
+  color: var(--tinta-suave);
+  text-decoration: none;
+  transition: color var(--paso) ease;
+}
+
+.menu a:hover { color: var(--tinta); }
+.menu a.aqui { color: var(--tinta); }
+
+.idiomas {
+  display: flex;
+  gap: 4px;
+  margin-left: 6px;
+  padding-left: 14px;
+  border-left: 1px solid rgba(255,255,255,.12);
+}
+
+.idiomas a {
+  color: var(--tinta-tenue);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 5px 6px;
+  border-radius: 7px;
+  transition: color var(--paso) ease, background var(--paso) ease;
+}
+
+.idiomas a:hover { color: var(--tinta); background: rgba(255,255,255,.07); }
+.idiomas a[aria-current="true"] { color: var(--tinta); font-weight: 700; }
+
+/* El botón de la barra, con su brillo de acento */
+.boton-barra {
+  padding: 9px 16px;
+  min-height: 40px;
+  font-size: 14.5px;
+  border-radius: 12px;
+}
+
+.boton svg { width: 17px; height: 17px; flex: 0 0 auto; }
+.boton-barra svg { width: 15px; height: 15px; }
+
+/* El hero empieza debajo de la píldora */
+.hero > .envoltorio { padding-top: 150px; }
+
+@media (max-width: 860px) {
+  .barra { padding: 10px 12px; }
+  .barra .envoltorio { height: 56px; gap: 12px; padding: 0 8px 0 12px; }
+  .menu { display: none; }              /* en la píldora no caben tres enlaces */
+  .barra-marca .kanji, .barra-marca .resto { display: none; }
+  .hero > .envoltorio { padding-top: 118px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-indicador { transition: opacity var(--paso) ease; }
 }

@@ -208,6 +208,58 @@ const TEXTOS = {
     mirar();
   }
 
+  /* ── El indicador sigue a la sección que se está leyendo ──────────────── */
+  /*
+     Un menú que solo enlaza es una lista; uno que marca dónde estás es
+     navegación. El indicador es UN elemento que se desplaza y se estira hasta
+     el enlace que toca, no un fondo por enlace: así el movimiento es continuo y
+     se lee como «vas por aquí» en vez de como una luz que se enciende.
+
+     Sin JavaScript no aparece —empieza a opacidad 0— y la barra sigue siendo
+     una fila de enlaces que funcionan.
+  */
+
+  const menu = document.querySelector(".menu");
+  if (menu) {
+    const enlaces = [].slice.call(menu.querySelectorAll("a[href^='#']"));
+    const marca = menu.querySelector(".menu-indicador");
+    const destinos = enlaces
+      .map(function (a) {
+        return { a: a, sec: document.querySelector(a.getAttribute("href")) };
+      })
+      .filter(function (d) { return d.sec; });
+
+    function colocar(a) {
+      if (!a) { menu.classList.remove("tiene-donde"); return; }
+      enlaces.forEach(function (e) { e.classList.toggle("aqui", e === a); });
+      marca.style.width = a.offsetWidth + "px";
+      marca.style.transform = "translate(" + a.offsetLeft + "px, -50%)";
+      menu.classList.add("tiene-donde");
+    }
+
+    // Al pasar el ratón, el indicador se adelanta; al salir, vuelve donde estaba.
+    let fijo = null;
+    enlaces.forEach(function (a) {
+      a.addEventListener("mouseenter", function () { colocar(a); });
+    });
+    menu.addEventListener("mouseleave", function () { colocar(fijo); });
+
+    function repasar() {
+      // La sección activa es la última cuyo principio ya ha pasado por el tercio
+      // alto de la ventana: con el punto medio, una sección corta nunca gana.
+      const linea = window.scrollY + window.innerHeight * 0.33;
+      let actual = null;
+      destinos.forEach(function (d) {
+        if (d.sec.offsetTop <= linea) actual = d.a;
+      });
+      if (actual !== fijo) { fijo = actual; colocar(fijo); }
+    }
+
+    window.addEventListener("scroll", repasar, { passive: true });
+    window.addEventListener("resize", function () { colocar(fijo); });
+    repasar();
+  }
+
   /* ── Las cifras cuentan al llegar ────────────────────────────────────── */
   /*
      Contar hasta el número dice «esto es una cantidad» mejor que el número

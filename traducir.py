@@ -49,6 +49,7 @@ ESTRUCTURA = [
     ('id="novedades"', 'id="news"'),
     ('href="#novedades"', 'href="#news"'),
     ('id="la-carta"', 'id="the-card"'),
+    ('href="#la-carta"', 'href="#the-card"'),
     ('id="cifras"', 'id="numbers"'),
 ]
 
@@ -64,6 +65,7 @@ TEXTOS = {
 "Te compró la carta de tu abuela por una décima parte de lo que valía. Aprende lo suficiente para que no vuelva a pasar.":
     "He bought your grandmother's card for a tenth of what it was worth. Learn enough that it doesn't happen again.",
 "Cómo se juega": "How it plays",
+"La carta": "The card",
 "Capturas": "Screenshots",
 "Novedades": "News",
 "Pronto en Steam": "Coming to Steam",
