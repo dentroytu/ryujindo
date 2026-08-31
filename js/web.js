@@ -140,6 +140,60 @@ const TEXTOS = {
     }
   }
 
+  /* ── El hero encadena varias tomas ───────────────────────────────────── */
+  /*
+     Una captura fija se lee como un cartel; tres encadenadas con un fundido
+     lento se leen como un juego. Van del mismo sitio y a distintos ángulos a
+     propósito: saltar de barrio en barrio marea, girar alrededor de uno no.
+  */
+
+  const capas = document.querySelectorAll(".hero-capa");
+  if (capas.length > 1 && !quieto) {
+    let i = 0;
+    setInterval(function () {
+      capas[i].classList.remove("viva");
+      i = (i + 1) % capas.length;
+      capas[i].classList.add("viva");
+    }, 6000);
+  }
+
+  /* ── La carta se inclina con el ratón ────────────────────────────────── */
+  /*
+     Es lo único de esta página con lo que se puede jugar, y en una web de un
+     juego de cartas eso no es un adorno: es la muestra del producto. El brillo
+     del foil se mueve con la inclinación, que es lo que separa una lámina de
+     un rectángulo pintado.
+  */
+
+  const escena = document.querySelector(".carta-escena");
+  const carta = document.querySelector(".carta");
+
+  if (escena && carta && !quieto) {
+    const TOPE = 13;   // grados: más que esto y deja de parecer una carta
+
+    function inclinar(px, py) {
+      const c = escena.getBoundingClientRect();
+      const x = (px - c.left) / c.width  - 0.5;
+      const y = (py - c.top)  / c.height - 0.5;
+      carta.style.setProperty("--ry", ( x * TOPE * 2).toFixed(2) + "deg");
+      carta.style.setProperty("--rx", (-y * TOPE * 2).toFixed(2) + "deg");
+      carta.style.setProperty("--foil", (115 + x * 90).toFixed(0) + "deg");
+    }
+
+    escena.addEventListener("mousemove", function (e) { inclinar(e.clientX, e.clientY); });
+    escena.addEventListener("touchmove", function (e) {
+      if (e.touches[0]) inclinar(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: true });
+
+    function soltar() {
+      carta.style.setProperty("--rx", "0deg");
+      carta.style.setProperty("--ry", "0deg");
+      carta.style.setProperty("--foil", "115deg");
+    }
+    escena.addEventListener("mouseleave", soltar);
+    escena.addEventListener("touchend", soltar);
+  }
+
   /* ── El año del pie ──────────────────────────────────────────────────── */
 
   document.querySelectorAll("[data-anyo]").forEach(function (n) {

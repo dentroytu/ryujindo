@@ -42,7 +42,7 @@
       <a class="boton boton-barra" data-steam aria-disabled="true">
         <span data-steam-texto>Coming to Steam</span>
       </a>
-      <div class="idiomas">
+      <div class="languages">
         <a href="index.html" aria-current="true" hreflang="en">ES</a>
         <a href="index.html" aria-current="true" hreflang="en">EN</a>
       </div>
@@ -53,7 +53,12 @@
 <main>
 
 <section class="hero">
-  <div class="hero-fondo" data-parallax></div>
+  <div class="hero-capas" data-parallax>
+    <div class="hero-capa viva" style="background-image:url('../img/cruce.webp')"></div>
+    <div class="hero-capa" style="background-image:url('../img/cruce2.webp')"></div>
+    <div class="hero-capa" style="background-image:url('../img/cruce3.webp')"></div>
+  </div>
+  <div class="hero-vineta"></div>
   <div class="envoltorio">
     <h1 class="hero-logo">
       <img src="../img/logotipo.svg" width="1348" height="464" alt="Ryujindo Card Shop · 龍神堂">
@@ -79,9 +84,24 @@
       <span>Release date TBA</span>
     </p>
   </div>
+  <div class="hero-abajo" aria-hidden="true">Keep scrolling</div>
+</section>
+
+<section id="numbers" class="honda">
+  <div class="textura tex-asanoha"></div>
+  <div class="envoltorio">
+    <div class="cifras revela">
+      <div class="cifra"><b>540</b><span>cards</span></div>
+      <div class="cifra"><b>6</b><span>sets</span></div>
+      <div class="cifra"><b>4</b><span>acts</span></div>
+      <div class="cifra"><b>7</b><span>walkable districts</span></div>
+      <div class="cifra"><b>5</b><span>languages</span></div>
+    </div>
+  </div>
 </section>
 
 <section id="how-it-plays">
+  <div class="textura tex-olas"></div>
   <div class="envoltorio">
     <h2 class="revela"><span class="kanji">道</span>From being ripped off to your name on a shutter</h2>
     <p class="entradilla revela">
@@ -159,7 +179,48 @@
   </div>
 </section>
 
-<section id="rasgos" class="honda">
+<section id="the-card" class="honda">
+  <div class="textura tex-asanoha"></div>
+  <div class="envoltorio">
+    <h2 class="revela"><span class="kanji">札</span>One of the 540</h2>
+    <p class="entradilla revela">
+      Every card has an element, health, an attack and the weakness that takes it
+      down — and a price that depends on all of that plus condition, foil and whatever
+      happened on Sunday. Move it around.
+    </p>
+
+    <div class="carta-escena revela">
+      <article class="carta" aria-label="龍神ノ巫女, Miko of the Dragon God, secret card from the Ryūjin set">
+        <div class="carta-cara">
+          <div class="carta-arte">
+            <div class="carta-tira"><span>Evolution</span><span>陰</span></div>
+            <div class="mon">龍神</div>
+          </div>
+          <div class="carta-datos">
+            <div class="carta-nombre">
+              <span>Miko of the Dragon God</span>
+              <i>160</i>
+            </div>
+            <div class="carta-sub">龍神ノ巫女 · 090/090 · SEC · foil</div>
+            <div class="carta-ataque">
+              <span>Lantern Charge</span>
+              <b>60</b>
+            </div>
+          </div>
+          <div class="carta-pie">
+            <span>Weakness · Light ×2</span>
+            <span><b>完美</b> Gem Mint</span>
+          </div>
+          <div class="carta-foil"></div>
+        </div>
+      </article>
+    </div>
+    <p class="carta-pista revela">Move your pointer over it</p>
+  </div>
+</section>
+
+<section id="rasgos">
+  <div class="textura tex-olas"></div>
   <div class="envoltorio">
     <h2 class="revela"><span class="kanji">品</span>What's in it</h2>
     <p class="entradilla revela">
@@ -235,7 +296,7 @@
 
     <div class="galeria revela">
 
-      <figure>
+      <figure class="grande">
         <a href="../img/cruce.webp"><img src="../img/cruce-r.webp" width="800" height="450" loading="lazy" alt="A pedestrian crossing with neon signs, stopped cars and people waiting"></a>
         <figcaption><b>The crossing</b>You cross it on foot, with the rest of the neighbourhood on the other side.</figcaption>
       </figure>
@@ -294,7 +355,18 @@
   </div>
 </section>
 
+<section class="sangre" style="background-image:url('../img/local.webp')">
+  <div class="envoltorio">
+    <h2 class="revela"><span class="kanji">貸店舗</span>To let</h2>
+    <p class="revela">
+      It's on your own street from day one, shutter down and the awning lit. Four
+      acts later, the name on the glass is yours.
+    </p>
+  </div>
+</section>
+
 <section id="news" class="honda">
+  <div class="textura tex-asanoha"></div>
   <div class="envoltorio">
     <h2 class="revela"><span class="kanji">近況</span>News</h2>
     <p class="entradilla revela">

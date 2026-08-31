@@ -87,7 +87,7 @@ conteos = {}
 for lang, pagina in PAGINAS:
     html = leer(pagina)
     conteos[lang] = {
-        "capturas": len(re.findall(r"<figure>", html)),
+        "capturas": len(re.findall(r"<figure[ >]", html)),
         "rasgos":   len(re.findall(r'class="rasgo"', html)),
         "secciones": len(re.findall(r"<section", html)),
         "botones":  len(re.findall(r"data-steam\b", html)),

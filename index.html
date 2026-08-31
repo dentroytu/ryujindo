@@ -53,7 +53,12 @@
 <main>
 
 <section class="hero">
-  <div class="hero-fondo" data-parallax></div>
+  <div class="hero-capas" data-parallax>
+    <div class="hero-capa viva" style="background-image:url('img/cruce.webp')"></div>
+    <div class="hero-capa" style="background-image:url('img/cruce2.webp')"></div>
+    <div class="hero-capa" style="background-image:url('img/cruce3.webp')"></div>
+  </div>
+  <div class="hero-vineta"></div>
   <div class="envoltorio">
     <h1 class="hero-logo">
       <img src="img/logotipo.svg" width="1348" height="464" alt="Ryujindo Card Shop · 龍神堂">
@@ -79,9 +84,24 @@
       <span>Fecha por anunciar</span>
     </p>
   </div>
+  <div class="hero-abajo" aria-hidden="true">Sigue bajando</div>
+</section>
+
+<section id="cifras" class="honda">
+  <div class="textura tex-asanoha"></div>
+  <div class="envoltorio">
+    <div class="cifras revela">
+      <div class="cifra"><b>540</b><span>cartas</span></div>
+      <div class="cifra"><b>6</b><span>sets</span></div>
+      <div class="cifra"><b>4</b><span>actos</span></div>
+      <div class="cifra"><b>7</b><span>barrios que se andan</span></div>
+      <div class="cifra"><b>5</b><span>idiomas</span></div>
+    </div>
+  </div>
 </section>
 
 <section id="como-se-juega">
+  <div class="textura tex-olas"></div>
   <div class="envoltorio">
     <h2 class="revela"><span class="kanji">道</span>De que te timen a poner tu nombre en una persiana</h2>
     <p class="entradilla revela">
@@ -162,7 +182,48 @@
   </div>
 </section>
 
-<section id="rasgos" class="honda">
+<section id="la-carta" class="honda">
+  <div class="textura tex-asanoha"></div>
+  <div class="envoltorio">
+    <h2 class="revela"><span class="kanji">札</span>Una de las 540</h2>
+    <p class="entradilla revela">
+      Cada carta tiene elemento, vitalidad, ataque y la debilidad que la tumba —
+      y un precio que depende de todo eso más la conservación, el foil y lo que
+      pasara el domingo. Muévela.
+    </p>
+
+    <div class="carta-escena revela">
+      <article class="carta" aria-label="龍神ノ巫女, Miko del Dios Dragón, carta secreta del set Ryūjin">
+        <div class="carta-cara">
+          <div class="carta-arte">
+            <div class="carta-tira"><span>Evolución</span><span>陰</span></div>
+            <div class="mon">龍神</div>
+          </div>
+          <div class="carta-datos">
+            <div class="carta-nombre">
+              <span>Miko del Dios Dragón</span>
+              <i>160</i>
+            </div>
+            <div class="carta-sub">龍神ノ巫女 · 090/090 · SEC · foil</div>
+            <div class="carta-ataque">
+              <span>Embestida del Farol</span>
+              <b>60</b>
+            </div>
+          </div>
+          <div class="carta-pie">
+            <span>Debilidad · Luz ×2</span>
+            <span><b>完美</b> Gem Mint</span>
+          </div>
+          <div class="carta-foil"></div>
+        </div>
+      </article>
+    </div>
+    <p class="carta-pista revela">Pasa el ratón por encima</p>
+  </div>
+</section>
+
+<section id="rasgos">
+  <div class="textura tex-olas"></div>
   <div class="envoltorio">
     <h2 class="revela"><span class="kanji">品</span>Lo que hay dentro</h2>
     <p class="entradilla revela">
@@ -239,7 +300,7 @@
 
     <div class="galeria revela">
 
-      <figure>
+      <figure class="grande">
         <a href="img/cruce.webp"><img src="img/cruce-r.webp" width="800" height="450" loading="lazy" alt="Un cruce de peatones con rótulos de neón, coches parados y gente esperando"></a>
         <figcaption><b>El cruce</b>Se cruza andando, con el resto del barrio al otro lado.</figcaption>
       </figure>
@@ -298,7 +359,18 @@
   </div>
 </section>
 
+<section class="sangre" style="background-image:url('img/local.webp')">
+  <div class="envoltorio">
+    <h2 class="revela"><span class="kanji">貸店舗</span>Se alquila</h2>
+    <p class="revela">
+      Está en tu misma calle desde el primer día, con la persiana echada y la
+      marquesina encendida. Cuatro actos después, el nombre del cristal es el tuyo.
+    </p>
+  </div>
+</section>
+
 <section id="novedades" class="honda">
+  <div class="textura tex-asanoha"></div>
   <div class="envoltorio">
     <h2 class="revela"><span class="kanji">近況</span>Novedades</h2>
     <p class="entradilla revela">

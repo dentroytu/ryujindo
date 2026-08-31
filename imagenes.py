@@ -45,16 +45,18 @@ except ImportError:
 AQUI = os.path.dirname(os.path.abspath(__file__))
 DESTINO = os.path.join(AQUI, "img")
 
-ANCHO_GRANDE = 1600
-ANCHO_REJILLA = 800
-CALIDAD = 82
+ANCHO_GRANDE = 2000
+ANCHO_REJILLA = 1100
+CALIDAD = 80
 
 # (fichero de -shots, nombre en la web)
 #
 # El orden es el de la galería. Cambiar la galería es cambiar esta tabla y
 # volver a lanzar el guion; los pies de foto viven en el HTML de cada idioma.
 CAPTURAS = [
-    ("56-cruce.png",          "cruce"),        # el hero
+    ("56-cruce.png",          "cruce"),        # el hero, toma 1
+    ("57-cruce-esquina.png",  "cruce2"),       # el hero, toma 2
+    ("58-cruce-centro.png",   "cruce3"),       # el hero, toma 3
     ("29-kenji-oferta.png",   "kenji"),        # el paso 1: el problema
     ("43b-local.png",         "local"),        # el paso 3: la meta
     ("25-apertura.png",       "apertura"),

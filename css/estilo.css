@@ -558,3 +558,320 @@ footer .legal { color: var(--tinta-tenue); font-size: 14px; }
   .revela.dentro { transition: none; }
   .hero-fondo { transform: none !important; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SEGUNDA PASADA — lo que separa «una landing correcta» de una que parece de
+   un juego. Todo lo de aquí abajo es dibujo propio: ni una captura más.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Texturas ────────────────────────────────────────────────────────────────
+   青海波 (seigaiha, olas) y 麻の葉 (asanoha, hoja de cáñamo): dos patrones
+   japoneses de toda la vida, dibujados en SVG dentro del propio CSS. Van al
+   3-4 % de opacidad — a esa fuerza no se ven, se NOTAN: es la diferencia entre
+   un fondo plano y un fondo que parece un material.                          */
+
+.tex-olas {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Cg fill='none' stroke='%23e8564b' stroke-width='1.2' opacity='0.5'%3E%3Cpath d='M0 40a20 20 0 0 1 40 0 20 20 0 0 1 40 0'/%3E%3Cpath d='M0 40a20 20 0 0 0 40 0 20 20 0 0 0 40 0' opacity='0'/%3E%3Cpath d='M-40 40a20 20 0 0 1 40 0'/%3E%3Cpath d='M0 26a20 20 0 0 1 40 0 20 20 0 0 1 40 0'/%3E%3Cpath d='M0 12a20 20 0 0 1 40 0 20 20 0 0 1 40 0'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 80px 40px;
+}
+
+.tex-asanoha {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='104' viewBox='0 0 60 104'%3E%3Cg fill='none' stroke='%23e0a63c' stroke-width='1' opacity='0.55'%3E%3Cpath d='M30 0v52M30 52v52M0 26l30 26 30-26M0 78l30-26 30 26M0 26v52M60 26v52M0 26L30 0l30 26M0 78l30 26 30-26'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: 60px 104px;
+}
+
+.textura {
+  position: absolute;
+  inset: 0;
+  opacity: .04;
+  pointer-events: none;
+}
+
+section { position: relative; overflow: hidden; }
+section > .envoltorio { position: relative; z-index: 2; }
+
+/* ── Hero: varias tomas encadenadas, viñeta y resplandor ─────────────────── */
+
+.hero-capas { position: absolute; inset: -8% 0 0 0; }
+
+.hero-capa {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 44%;
+  opacity: 0;
+  transition: opacity 2.2s ease-in-out;
+}
+
+.hero-capa.viva { opacity: 1; }
+
+/* La viñeta es lo que hace que una captura plana parezca un fotograma: cierra
+   las cuatro esquinas y empuja la mirada al centro y al texto. */
+.hero-vineta {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 45%, transparent 40%, rgba(4,7,16,.55) 100%),
+    radial-gradient(70% 60% at 22% 62%, rgba(232,86,75,.16), transparent 70%);
+}
+
+.hero-abajo {
+  position: absolute;
+  left: 50%;
+  bottom: 26px;
+  transform: translateX(-50%);
+  z-index: 3;
+  color: var(--tinta-suave);
+  font-size: 13px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-shadow: 0 1px 10px rgba(0,0,0,.9);
+}
+
+.hero-abajo::after {
+  content: "";
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(var(--oro), transparent);
+  animation: gotear 2.4s ease-in-out infinite;
+}
+
+@keyframes gotear {
+  0%, 100% { transform: scaleY(.55); opacity: .5; transform-origin: top; }
+  50%      { transform: scaleY(1);   opacity: 1;  transform-origin: top; }
+}
+
+.hero h1.hero-logo { max-width: 720px; }
+
+/* ── Las cifras ──────────────────────────────────────────────────────────── */
+
+.cifras {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: var(--e-md);
+  border-top: 1px solid var(--borde);
+  border-bottom: 1px solid var(--borde);
+  padding: var(--e-xl) 0;
+}
+
+.cifra { text-align: center; }
+
+.cifra b {
+  font-family: var(--titulo);
+  display: block;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  line-height: 1;
+  color: var(--oro);
+  letter-spacing: -.02em;
+}
+
+.cifra span {
+  display: block;
+  margin-top: 6px;
+  color: var(--tinta-tenue);
+  font-size: 13.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+/* ── La carta ────────────────────────────────────────────────────────────────
+   Dibujada en CSS con la misma anatomía que la del juego: aguada del set,
+   sigilo, marco, nombre, vitalidad, ataque y debilidad. Se inclina siguiendo
+   el ratón y el brillo del foil se mueve con ella. En una web de un juego de
+   cartas, lo que hay que poder hacer es TOCAR una carta.                     */
+
+.carta-escena {
+  perspective: 1100px;
+  display: flex;
+  justify-content: center;
+  padding: var(--e-md) 0;
+}
+
+.carta {
+  position: relative;
+  width: 300px;
+  aspect-ratio: 63 / 88;          /* la proporción de una carta de verdad */
+  border-radius: 14px;
+  padding: 10px;
+  background: linear-gradient(150deg, #f3e2b6, #d9b64a 40%, #8a6a1c);
+  box-shadow: var(--sombra-xl);
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 260ms cubic-bezier(.2,.7,.3,1);
+  will-change: transform;
+  cursor: grab;
+}
+
+.carta-cara {
+  position: relative;
+  height: 100%;
+  border-radius: 8px;
+  background: #14182a;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.carta-arte {
+  position: relative;
+  height: 52%;
+  background: linear-gradient(180deg, #1f2f6b 0%, #7b3b63 55%, #b8392f 100%);
+  display: grid;
+  place-items: center;
+}
+
+.carta-arte .mon {
+  font-family: var(--titulo);
+  font-size: 4.6rem;
+  line-height: .9;
+  color: #fff;
+  opacity: .96;
+  text-shadow: 0 4px 20px rgba(0,0,0,.45);
+  letter-spacing: .06em;
+}
+
+.carta-tira {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10.5px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.carta-tira span {
+  background: rgba(0,0,0,.42);
+  border: 1px solid rgba(255,255,255,.22);
+  padding: 2px 7px;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.carta-datos { padding: 12px 13px; color: #e8ecf6; }
+
+.carta-nombre {
+  font-family: var(--titulo);
+  font-size: 1.02rem;
+  line-height: 1.2;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.carta-nombre i { font-style: normal; font-size: 1.35rem; color: #fff; }
+.carta-sub { color: #98a3bd; font-size: 11.5px; margin-top: 3px; letter-spacing: .02em; }
+
+.carta-ataque {
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,.14);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-family: var(--titulo);
+  font-size: .98rem;
+}
+
+.carta-ataque b { font-size: 1.3rem; color: #fff; }
+
+.carta-pie {
+  margin-top: auto;
+  padding: 9px 13px;
+  border-top: 1px solid rgba(255,255,255,.14);
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: #98a3bd;
+}
+
+.carta-pie b { color: #e6c15a; font-weight: 700; }
+
+/* El foil: una banda de luz que cruza la carta y se mueve con la inclinación.
+   Es lo que hace que se lea como una lámina y no como un rectángulo pintado. */
+.carta-foil {
+  position: absolute;
+  inset: 0;
+  border-radius: 8px;
+  pointer-events: none;
+  background: linear-gradient(
+    var(--foil, 115deg),
+    transparent 30%,
+    rgba(255,255,255,.16) 44%,
+    rgba(160,220,255,.22) 50%,
+    rgba(255,190,120,.18) 56%,
+    transparent 70%);
+  mix-blend-mode: screen;
+}
+
+.carta-pista {
+  margin-top: var(--e-md);
+  text-align: center;
+  color: var(--tinta-tenue);
+  font-size: 13.5px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+/* ── Bloque a sangre ─────────────────────────────────────────────────────── */
+
+.sangre {
+  position: relative;
+  min-height: 62vh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: var(--e-3xl) 0;
+  background-size: cover;
+  background-position: center 60%;
+  background-attachment: fixed;   /* el fondo se queda quieto al pasar */
+}
+
+.sangre::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(90% 80% at 50% 50%, rgba(15,23,42,.72), rgba(15,23,42,.94));
+}
+
+.sangre .envoltorio { position: relative; z-index: 2; }
+
+.sangre h2 { font-size: clamp(2.1rem, 5.2vw, 3.4rem); }
+
+.sangre p {
+  margin: 0 auto;
+  max-width: 30em;
+  font-size: clamp(1.05rem, 2.2vw, 1.28rem);
+  color: var(--tinta);
+  text-shadow: 0 1px 12px rgba(0,0,0,.8);
+}
+
+/* ── Galería en mosaico ──────────────────────────────────────────────────── */
+
+.galeria { grid-auto-flow: dense; }
+.galeria .grande { grid-column: span 2; }
+
+@media (max-width: 800px) {
+  .galeria .grande { grid-column: span 1; }
+  .sangre { background-attachment: scroll; }
+}
+
+/* ── Titulares con más presencia ─────────────────────────────────────────── */
+
+h2 { font-size: clamp(2.1rem, 4.6vw, 3.1rem); }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-capa { transition: none; }
+  .hero-abajo::after { animation: none; }
+  .carta { transition: none; }
+}
