@@ -54,19 +54,29 @@ CALIDAD = 80
 # El orden es el de la galería. Cambiar la galería es cambiar esta tabla y
 # volver a lanzar el guion; los pies de foto viven en el HTML de cada idioma.
 CAPTURAS = [
-    ("56-cruce.png",          "cruce"),        # el hero, toma 1
-    ("57-cruce-esquina.png",  "cruce2"),       # el hero, toma 2
-    ("58-cruce-centro.png",   "cruce3"),       # el hero, toma 3
-    ("29-kenji-oferta.png",   "kenji"),        # el paso 1: el problema
-    ("43b-local.png",         "local"),        # el paso 3: la meta
-    ("25-apertura.png",       "apertura"),
-    ("67-ficha.png",          "ficha"),
-    ("68-duelo.png",          "duelo"),
-    ("54-yokocho-dentro.png", "yokocho"),
-    ("63-parque-hokora.png",  "parque"),
-    ("50-akihabara-skyline.png", "akihabara"),
-    ("36-carpeta.png",        "carpeta"),
-    ("75-ramen.png",          "ramen"),
+    # El hero encadena tres tomas, y de tres sitios distintos: hasta que las
+    # capturas no salieron sin HUD, las únicas limpias eran del cruce y las tres
+    # eran el mismo sitio.
+    ("56-cruce.png",            "cruce"),
+    ("50-akihabara-skyline.png","cruce2"),
+    ("64-nakano-shotengai.png", "cruce3"),
+
+    # Los tres pasos
+    ("29-kenji-oferta.png",     "kenji"),
+    ("36-carpeta.png",          "carpeta"),
+    ("43b-local.png",           "local"),
+
+    # La galería, en el orden en que sale
+    ("01-fachada.png",          "tienda"),
+    ("25-apertura.png",         "apertura"),
+    ("67-ficha.png",            "ficha"),
+    ("68-duelo.png",            "duelo"),
+    ("54-yokocho-dentro.png",   "yokocho"),
+    ("63-parque-hokora.png",    "parque"),
+    ("49-akihabara.png",        "akihabara"),
+    ("76-ramen-dentro.png",     "ramen"),
+    ("05-mesas.png",            "mesas"),
+    ("72-konbini-dentro.png",   "konbini"),
 ]
 
 # La marca. El origen son los SVG de `arte/marca/`, que es lo que se dibujó:
@@ -193,7 +203,7 @@ def imagen_de_enlace(captura, logotipo, salida):
 
 def main():
     p = argparse.ArgumentParser()
-    p.add_argument("--shots", default="/private/tmp/kitsune/shots")
+    p.add_argument("--shots", default="/private/tmp/kitsune/shots-limpio")
     p.add_argument("--capsulas", default="/private/tmp/kitsune/capsulas")
     p.add_argument("--emblema", default="/private/tmp/kitsune")
     p.add_argument("--marca", default=MARCA_DIR,

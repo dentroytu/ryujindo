@@ -219,6 +219,18 @@ BLOQUES = [
 
 # Pies de foto y textos alternativos: pares cortos, uno por línea.
 PIES = {
+"<b>Tu tienda</b>El 袖看板 encendido, el noren y la puerta abierta. Lo que hay dentro lo pones tú.":
+    "<b>Your shop</b>The 袖看板 lit, the noren, the door open. What goes inside is up to you.",
+"<b>Las mesas</b>Se alquilan por horas, se ensucian y hay que recogerlas. Quien juega en tu tienda también compra en ella.":
+    "<b>The tables</b>Rented by the hour, left dirty, and someone has to clear them. Whoever plays in your shop also buys in it.",
+"<b>El コンビニ</b>Se entra, y dentro hay género de verdad en las baldas. También se manda a graduar desde su mostrador.":
+    "<b>The コンビニ</b>You walk in, and there's real stock on the shelves. Grading is sent off from its counter too.",
+"La fachada de la tienda al anochecer, con los farolillos encendidos":
+    "The shop front at dusk, lanterns lit",
+"Las mesas de juego de la tienda con sus tapetes":
+    "The shop's play tables with their mats",
+"El interior de un konbini con sus estanterías surtidas":
+    "The inside of a konbini with its shelves stocked",
 "<b>El cruce</b>Se cruza andando, con el resto del barrio al otro lado.":
     "<b>The crossing</b>You cross it on foot, with the rest of the neighbourhood on the other side.",
 "<b>Abrir un sobre</b>Cinco cartas de una en una. Abrirlo suele ser peor negocio que venderlo cerrado, y está calculado para que lo sea.":
