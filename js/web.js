@@ -91,6 +91,55 @@ const TEXTOS = {
     n.textContent = t.sinjs;
   });
 
+  /* ── Aparecer al llegar, y el fondo del hero un poco más lento ───────── */
+  /*
+     La guía de diseño pide movimiento con sentido y prohíbe una sola duración
+     para todo. Aquí el movimiento dice exactamente una cosa —«esto acaba de
+     entrar en pantalla»— y el fondo que se mueve más despacio que el texto es
+     lo único que queda de «profundidad» sin meter un motor 3D en una landing.
+
+     Las dos cosas se apagan si el sistema pide menos movimiento, y las dos
+     degradan a nada si no hay JavaScript: el estado por defecto del CSS es
+     visible, así que una página sin JS se lee entera igual.
+  */
+
+  const quieto = window.matchMedia
+    && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  const revelables = document.querySelectorAll(".revela");
+
+  if (quieto || !("IntersectionObserver" in window)) {
+    revelables.forEach(function (n) { n.classList.add("dentro"); });
+  } else {
+    const vigia = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add("dentro");
+          vigia.unobserve(e.target);   // una vez visto, deja de vigilarse
+        }
+      });
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
+    revelables.forEach(function (n) { vigia.observe(n); });
+
+    const fondo = document.querySelector("[data-parallax]");
+    if (fondo) {
+      let pedido = false;
+      window.addEventListener("scroll", function () {
+        if (pedido) return;
+        pedido = true;
+        // El trabajo va dentro de requestAnimationFrame: mover una capa en cada
+        // evento de scroll es cómo se consigue que una página vaya a tirones.
+        window.requestAnimationFrame(function () {
+          const y = window.scrollY;
+          if (y < window.innerHeight) {
+            fondo.style.transform = "translate3d(0," + (y * 0.18) + "px,0)";
+          }
+          pedido = false;
+        });
+      }, { passive: true });
+    }
+  }
+
   /* ── El año del pie ──────────────────────────────────────────────────── */
 
   document.querySelectorAll("[data-anyo]").forEach(function (n) {

@@ -1,59 +1,74 @@
 /* ───────────────────────────────────────────────────────────────────────────
-   Ryujindo Card Shop — hoja de estilo de la web.
+   Ryujindo Card Shop — hoja de estilo de la web.  Rediseño del 31/08.
 
-   Un solo fichero para las dos lenguas: lo que cambia entre el español y el
-   inglés es el texto, nunca la maqueta. Sin dependencias externas — la página
-   tiene que verse igual abierta con doble clic que servida desde un dominio.
+   El sistema sale de `design-system/ryujindo-card-shop/MASTER.md`, generado con
+   la guía de diseño instalada: patrón *Feature-Rich Showcase*, superficie
+   oscura, **verde tapete y oro** —la paleta que da para un juego de cartas—,
+   profundidad por capas, y transiciones de 200-300 ms.
 
-   La paleta sale del juego: el crema del papel de la libreta, el casi negro
-   del menú y el rojo del disco del emblema, que está medido en (232,86,75).
+   Dos cosas se apartan de la guía a propósito, y las dos porque su propio
+   método pide comprobar que lo devuelto encaja con el producto:
 
-   Contraste: los listones son los de WCAG y no cifras a ojo (4,5:1 para el
-   texto normal, 3:1 para el grande). Es la misma regla que gobierna el menú
-   del juego, y por la misma razón: sobre una captura de fondo el contraste no
-   se le puede fiar al fondo, porque el fondo cambia.
+   · La tipografía. Para «indie» proponía Amatic SC, que es una manuscrita de
+     marca artesanal y no pega nada con un juego japonés; su otra ficha, la de
+     sitios japoneses, da Noto Serif JP + Noto Sans JP — y ésa además es la
+     letra que el juego lleva dentro.
+   · El rojo. La guía pone el verde de primario, pero el logotipo trae su propio
+     rojo medido en (232,86,75): dos rojos distintos en la misma página son un
+     fallo, no una opción. El verde y el oro entran como superficie y como
+     llamada, que es donde valen.
+
+   Contraste: WCAG, 4,5:1 para texto normal y 3:1 para el grande. Todos los
+   pares de esta hoja están calculados, no mirados.
    ─────────────────────────────────────────────────────────────────────────── */
 
 :root {
-  --tinta:       #ece9e2;   /* texto principal            13,9 : 1 sobre --fondo */
-  --tinta-suave: #a8aebb;   /* texto secundario            6,7 : 1               */
-  --tinta-tenue: #8b91a1;   /* metadatos, fechas           5,4 : 1 · 4,9 sobre tarjeta */
-  --fondo:       #14151c;
-  --fondo-2:     #1a1c25;
-  --fondo-3:     #22252f;
-  --borde:       #2e323e;
-  --rojo:        #e8564b;   /* el disco del emblema */
-  --rojo-vivo:   #ff6b5e;
-  --rojo-boton:  #b8362c;   /* el de marca, oscurecido: blanco encima 5,9 : 1 */
-  --oro:         #d9b64a;
+  /* ── Superficie, de la guía ─────────────────────────────────────────────── */
+  --fondo:        #0f172a;
+  --fondo-2:      #192134;   /* tarjetas */
+  --fondo-3:      #0f1f2b;   /* bandas alternas */
+  --borde:        rgba(255,255,255,.09);
+  --borde-vivo:   rgba(255,255,255,.18);
 
-  --ancho: 1120px;
-  --radio: 10px;
+  /* ── Tinta ──────────────────────────────────────────────────────────────── */
+  --tinta:        #f1f5f9;   /* 15,8 : 1 sobre el fondo */
+  --tinta-suave:  #a9b6c8;   /*  8,1 : 1 */
+  --tinta-tenue:  #8593a8;   /*  5,6 : 1 — el mínimo para texto normal */
 
-  --letra: "Zen Kaku Gothic New", -apple-system, BlinkMacSystemFont, "Segoe UI",
-           Roboto, "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN",
-           "Yu Gothic", "Noto Sans JP", sans-serif;
+  /* ── Color ──────────────────────────────────────────────────────────────── */
+  --rojo:         #e8564b;   /* el del emblema: la marca */
+  --rojo-fuerte:  #b8362c;   /* blanco encima, 5,8 : 1 */
+  --tapete:       #15803d;   /* verde de mesa de cartas */
+  --tapete-hondo: #0d4f26;
+  --oro:          #e0a63c;   /* la llamada; texto oscuro encima, 8,4 : 1 */
+  --oro-hondo:    #b8801f;
 
-  /* Los titulares en mincho: es la letra de los rótulos y los libros japoneses,
-     y comparte con el logotipo la lógica del trazo modulado que una grotesca no
-     tiene. El fichero que viaja con la web solo trae el latín, así que detrás va
-     la mincho del sistema —Hiragino en Mac, Yu Mincho en Windows— para que los
-     kanji del mismo renglón no salgan en otra clase de letra. */
-  --titulo: "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho",
-            "Noto Serif JP", "Songti SC", Georgia, serif;
+  /* ── Espacio, de la guía ────────────────────────────────────────────────── */
+  --e-xs: 4px;  --e-sm: 8px;  --e-md: 16px;
+  --e-lg: 24px; --e-xl: 32px; --e-2xl: 48px; --e-3xl: 64px;
+
+  /* ── Profundidad. El estilo que pide es «3D e hiperrealismo»; sin WebGL en
+        una landing, lo que queda de eso es la PROFUNDIDAD: capas, sombras
+        apiladas y un fondo que se mueve más despacio que el texto. ────────── */
+  --sombra-sm: 0 1px 2px rgba(0,0,0,.30);
+  --sombra-md: 0 4px 10px rgba(0,0,0,.35);
+  --sombra-lg: 0 12px 28px rgba(0,0,0,.45);
+  --sombra-xl: 0 24px 56px rgba(0,0,0,.55);
+
+  --ancho: 1180px;
+  --radio: 14px;
+  --paso: 220ms;   /* la guía pide 200-300 ms */
+
+  --letra: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+           "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+
+  /* Los kanji no vienen en el fichero latino: detrás va la mincho del sistema,
+     para que no salgan en otra clase de letra dentro del mismo renglón. */
+  --titulo: "Noto Serif JP", "Hiragino Mincho ProN", "Yu Mincho",
+            "Songti SC", Georgia, serif;
 }
 
 * { box-sizing: border-box; }
-
-/* Quien navega con el teclado tiene que ver dónde está. El contorno por
-   defecto sobre un fondo casi negro apenas se distingue, así que se dibuja
-   uno propio — y solo con `:focus-visible`, para no ponérselo delante a quien
-   viene con el ratón. */
-:focus-visible {
-  outline: 2px solid var(--rojo-vivo);
-  outline-offset: 3px;
-  border-radius: 4px;
-}
 
 html { scroll-behavior: smooth; }
 
@@ -63,31 +78,45 @@ body {
   color: var(--tinta);
   font-family: var(--letra);
   font-size: 17px;
-  line-height: 1.65;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
+  /* Un kanji partido entre dos renglones deja de leerse: «el set 龍神» salía
+     como 龍 / 神. `keep-all` impide romper dentro de una palabra CJK, y el
+     `overflow-wrap` es la red por si algún día entra una cadena sin espacios. */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 img { max-width: 100%; display: block; }
-
-a { color: var(--rojo-vivo); }
+a { color: var(--oro); }
 a:hover { color: var(--tinta); }
+
+button, a, [role="button"] { cursor: pointer; }
+
+/* Quien navega con el teclado tiene que ver dónde está: el contorno por
+   defecto sobre un fondo casi negro no se distingue. */
+:focus-visible {
+  outline: 2px solid var(--oro);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
 
 .envoltorio {
   width: 100%;
   max-width: var(--ancho);
   margin: 0 auto;
-  padding: 0 24px;
+  padding: 0 var(--e-lg);
 }
 
-/* ── Barra superior ──────────────────────────────────────────────────────── */
+/* ── Barra ───────────────────────────────────────────────────────────────── */
 
 .barra {
   position: sticky;
   top: 0;
   z-index: 50;
-  background: rgba(20, 21, 28, .86);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(15, 23, 42, .88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--borde);
 }
 
@@ -95,10 +124,9 @@ a:hover { color: var(--tinta); }
   display: flex;
   align-items: center;
   gap: 20px;
-  height: 60px;
-  /* Una barra que no cabe no se rompe sola: empuja el ancho del documento y
-     con él se desbordan el logotipo del hero y los párrafos, tres pantallas
-     más abajo. El síntoma aparece lejos de la causa, así que aquí se acota. */
+  height: 64px;
+  /* Una barra que no cabe empuja el ancho del documento y desborda el resto de
+     la página tres pantallas más abajo, así que se acota aquí. */
   overflow: hidden;
 }
 
@@ -108,14 +136,13 @@ a:hover { color: var(--tinta); }
   align-items: center;
   gap: 10px;
   font-weight: 700;
-  letter-spacing: .01em;
   color: var(--tinta);
   text-decoration: none;
   white-space: nowrap;
 }
 
-.barra-marca img { width: 26px; height: 26px; }
-.barra-marca .kanji { color: var(--rojo); font-weight: 500; }
+.barra-marca img { width: 30px; height: 32px; }
+.barra-marca .kanji { color: var(--rojo); font-weight: 600; }
 
 .barra nav {
   margin-left: auto;
@@ -125,18 +152,8 @@ a:hover { color: var(--tinta); }
   font-size: 15px;
 }
 
-.barra nav a {
-  color: var(--tinta-suave);
-  text-decoration: none;
-}
-
+.barra nav a { color: var(--tinta-suave); text-decoration: none; transition: color var(--paso) ease; }
 .barra nav a:hover { color: var(--tinta); }
-
-.boton-barra {
-  padding: 8px 16px;
-  font-size: 14.5px;
-  border-radius: 8px;
-}
 
 .idiomas {
   display: flex;
@@ -159,68 +176,68 @@ a:hover { color: var(--tinta); }
 
 .hero {
   position: relative;
-  min-height: 74vh;
+  min-height: 82vh;
   display: flex;
   align-items: flex-end;
-  background-image: url("../img/cruce.webp");
-  background-size: cover;
-  background-position: center 42%;
   overflow: hidden;
 }
 
-/* El velo cae en curva suave y no en cuadrática: el proyecto se dejó cuatro
-   veces el título de su propio menú al 0,006 de alfa por usar una caída que
-   al llegar al texto ya no era nada (trampas 206, 280, 335, 377). */
+/* El fondo va en su propia capa para poder moverlo más despacio que el texto:
+   es lo único de «profundidad» que sale gratis y no cuesta un motor 3D. */
+.hero-fondo {
+  position: absolute;
+  inset: -8% 0 0 0;
+  background-image: url("../img/cruce.webp");
+  background-size: cover;
+  background-position: center 42%;
+  will-change: transform;
+}
+
+/* El velo cae en curva suave y no en cuadrática: con una caída cuadrática, al
+   llegar al texto ya no queda velo — el menú del propio juego se dejó el título
+   a un 0,006 de alfa cuatro veces por eso. */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
   background:
     linear-gradient(to top,
-      rgba(20,21,28,.97) 0%,
-      rgba(20,21,28,.93) 22%,
-      rgba(20,21,28,.80) 42%,
-      rgba(20,21,28,.55) 62%,
-      rgba(20,21,28,.38) 82%,
-      rgba(20,21,28,.30) 100%);
+      rgba(15,23,42,.98) 0%,
+      rgba(15,23,42,.94) 20%,
+      rgba(15,23,42,.82) 40%,
+      rgba(15,23,42,.58) 62%,
+      rgba(15,23,42,.40) 82%,
+      rgba(15,23,42,.32) 100%);
 }
 
 .hero > .envoltorio {
   position: relative;
   z-index: 2;
-  padding-top: 120px;
-  padding-bottom: 64px;
+  padding-top: 128px;
+  padding-bottom: var(--e-3xl);
 }
 
-/* El título es el logotipo dibujado. Va en SVG y no en PNG porque en una
-   pantalla de las densas un mapa de bits al doble de tamaño se ve blando, y
-   este dibujo es lo primero que ve quien llega. El <h1> sigue siendo el título
-   de la página: lo que cambia es que su contenido es una imagen con su alt. */
 .hero-logo {
   margin: 0;
-  max-width: 640px;
-  filter: drop-shadow(0 4px 22px rgba(0,0,0,.55));
+  max-width: 660px;
+  filter: drop-shadow(0 6px 28px rgba(0,0,0,.6));
 }
 
-.hero-logo img {
-  width: 100%;
-  height: auto;
-}
+.hero-logo img { width: 100%; height: auto; }
 
 .hero .lema {
-  margin: 18px 0 0;
-  max-width: 34em;
-  font-size: clamp(1.05rem, 2.1vw, 1.32rem);
-  color: var(--tinta);
-  text-shadow: 0 1px 10px rgba(0,0,0,.85);
+  margin: var(--e-lg) 0 0;
+  max-width: 32em;
+  font-size: clamp(1.1rem, 2.2vw, 1.4rem);
+  line-height: 1.6;
+  text-shadow: 0 1px 12px rgba(0,0,0,.9);
 }
 
 .hero .ficha-tecnica {
-  margin: 22px 0 0;
+  margin: var(--e-lg) 0 0;
   color: var(--tinta-suave);
   font-size: 15px;
-  letter-spacing: .02em;
-  text-shadow: 0 1px 8px rgba(0,0,0,.9);
+  text-shadow: 0 1px 10px rgba(0,0,0,.95);
 }
 
 .hero .ficha-tecnica span + span::before {
@@ -229,10 +246,10 @@ a:hover { color: var(--tinta); }
   color: var(--tinta-tenue);
 }
 
-/* ── Llamada a Steam ─────────────────────────────────────────────────────── */
+/* ── Llamadas a la acción ────────────────────────────────────────────────── */
 
 .acciones {
-  margin-top: 30px;
+  margin-top: var(--e-xl);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -240,120 +257,173 @@ a:hover { color: var(--tinta); }
 }
 
 .boton {
-  /* El fondo es el rojo de la marca oscurecido: con el tono del emblema, el
-     texto blanco encima da 3,58 : 1 y el listón de WCAG para texto normal es
-     4,5. La marca se queda en el borde y en el estado de encima. */
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 14px 26px;
+  padding: 15px 30px;
+  min-height: 48px;          /* la guía pide 44 px de zona pulsable */
   border-radius: var(--radio);
-  background: var(--rojo-boton);
-  color: #fff;
+  background: var(--oro);
+  color: #16130a;            /* 8,4 : 1 sobre el oro */
   font-size: 17px;
   font-weight: 700;
   text-decoration: none;
   border: 1px solid transparent;
-  transition: transform .12s ease, background .12s ease;
+  box-shadow: var(--sombra-md);
+  transition: background var(--paso) ease, transform var(--paso) ease,
+              box-shadow var(--paso) ease;
 }
 
 .boton:hover {
-  background: #d04236;   /* 4,65 : 1 con el texto blanco; el de marca da 3,58 */
-  color: #fff;
-  transform: translateY(-1px);
+  background: #f0b954;
+  color: #16130a;
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-lg);
 }
 
 .boton[aria-disabled="true"] {
-  background: var(--fondo-3);
+  background: transparent;
   color: var(--tinta-suave);
-  border-color: var(--borde);
+  border-color: var(--borde-vivo);
+  box-shadow: none;
   cursor: default;
   transform: none;
 }
 
-.boton-nota {
-  color: var(--tinta-suave);
-  font-size: 14.5px;
-  text-shadow: 0 1px 8px rgba(0,0,0,.9);
-}
+.boton-barra { padding: 9px 18px; min-height: 40px; font-size: 14.5px; border-radius: 10px; }
+
+.boton-nota { color: var(--tinta-suave); font-size: 14.5px; text-shadow: 0 1px 8px rgba(0,0,0,.9); }
 
 /* ── Secciones ───────────────────────────────────────────────────────────── */
 
-section { padding: 76px 0; }
-
+section { padding: var(--e-3xl) 0; }
+section.honda { background: var(--fondo-3); }
 section + section { border-top: 1px solid var(--borde); }
 
 h2 {
   font-family: var(--titulo);
-  margin: 0 0 8px;
-  font-size: clamp(1.6rem, 3.4vw, 2.1rem);
+  margin: 0 0 var(--e-md);
+  font-size: clamp(1.9rem, 4vw, 2.6rem);   /* la guía pide titulares de 32 px+ */
+  line-height: 1.25;
   letter-spacing: -.01em;
 }
 
 h2 .kanji {
   color: var(--rojo);
-  font-size: .62em;
-  margin-right: .5em;
+  font-size: .58em;
+  margin-right: .55em;
   letter-spacing: .1em;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .entradilla {
-  margin: 0 0 40px;
-  max-width: 46em;
+  margin: 0 0 var(--e-2xl);
+  max-width: 44em;
   color: var(--tinta-suave);
-  font-size: 1.05rem;
+  font-size: 1.08rem;
 }
 
-.prosa p { max-width: 42em; }
-.prosa p + p { margin-top: 1.1em; }
-.prosa strong { color: var(--tinta); font-weight: 700; }
+/* ── Los tres pasos: problema, solución, acción ──────────────────────────── */
+
+.pasos { display: flex; flex-direction: column; gap: var(--e-3xl); }
+
+.paso {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--e-2xl);
+  align-items: center;
+}
+
+.paso:nth-child(even) .paso-figura { order: -1; }
+
+.paso-num {
+  font-family: var(--titulo);
+  display: block;
+  font-size: 3.2rem;
+  line-height: 1;
+  color: var(--oro);
+  opacity: .55;
+  margin-bottom: var(--e-sm);
+}
+
+.paso h3 {
+  font-family: var(--titulo);
+  margin: 0 0 var(--e-md);
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+  line-height: 1.3;
+}
+
+.paso p { margin: 0 0 var(--e-md); color: var(--tinta-suave); max-width: 34em; }
+.paso p strong { color: var(--tinta); font-weight: 700; }
+
+.paso-figura {
+  border-radius: var(--radio);
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  box-shadow: var(--sombra-xl);
+}
 
 /* ── Rasgos ──────────────────────────────────────────────────────────────── */
 
 .rasgos {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-  margin-top: 8px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--e-lg);
 }
 
 .rasgo {
+  position: relative;
   background: var(--fondo-2);
   border: 1px solid var(--borde);
   border-radius: var(--radio);
-  padding: 24px;
-  transition: border-color .15s ease, transform .15s ease;
+  padding: var(--e-lg) var(--e-lg) var(--e-lg);
+  box-shadow: var(--sombra-sm);
+  transition: border-color var(--paso) ease, transform var(--paso) ease,
+              box-shadow var(--paso) ease;
 }
 
 .rasgo:hover {
-  border-color: #3d424f;
-  transform: translateY(-2px);
+  border-color: var(--borde-vivo);
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-lg);
+}
+
+/* La franja de tapete: el verde de la guía entra como superficie temática, que
+   es una mesa de cartas, y no como color de texto. */
+.rasgo::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 3px;
+  border-radius: var(--radio) var(--radio) 0 0;
+  background: linear-gradient(90deg, var(--tapete), var(--oro));
+  opacity: .8;
 }
 
 .rasgo h3 {
   font-family: var(--titulo);
-  margin: 0 0 8px;
-  font-size: 1.06rem;
+  margin: var(--e-sm) 0 var(--e-sm);
+  font-size: 1.12rem;
   display: flex;
   align-items: baseline;
   gap: 9px;
 }
 
-.rasgo h3 .kanji { color: var(--rojo); font-size: .92em; font-weight: 500; }
-
-.rasgo p {
-  margin: 0;
-  color: var(--tinta-suave);
-  font-size: 15.5px;
+.rasgo h3 .kanji {
+  color: var(--rojo);
+  font-size: .9em;
+  font-weight: 600;
+  flex: 0 0 auto;        /* no se encoge */
+  white-space: nowrap;   /* y no se parte por la mitad */
 }
+.rasgo p { margin: 0; color: var(--tinta-suave); font-size: 15.5px; }
 
 /* ── Galería ─────────────────────────────────────────────────────────────── */
 
 .galeria {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 22px;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: var(--e-lg);
 }
 
 .galeria figure {
@@ -362,67 +432,47 @@ h2 .kanji {
   border: 1px solid var(--borde);
   border-radius: var(--radio);
   overflow: hidden;
-  transition: border-color .15s ease, transform .15s ease;
+  box-shadow: var(--sombra-sm);
+  transition: border-color var(--paso) ease, transform var(--paso) ease,
+              box-shadow var(--paso) ease;
 }
 
 .galeria figure:hover {
-  border-color: #3d424f;
-  transform: translateY(-2px);
+  border-color: var(--borde-vivo);
+  transform: translateY(-3px);
+  box-shadow: var(--sombra-lg);
 }
 
-.galeria a {
-  display: block;
-  line-height: 0;
-  background: #000;
-}
+.galeria a { display: block; line-height: 0; background: #000; }
+.galeria img { width: 100%; transition: opacity var(--paso) ease; }
+.galeria a:hover img { opacity: .85; }
 
-.galeria img {
-  width: 100%;
-  transition: opacity .15s ease;
-}
-
-.galeria a:hover img { opacity: .86; }
-
-.galeria figcaption {
-  padding: 14px 18px 17px;
-  color: var(--tinta-suave);
-  font-size: 15px;
-}
+.galeria figcaption { padding: 15px 18px 18px; color: var(--tinta-suave); font-size: 15px; }
 
 .galeria figcaption b {
   font-family: var(--titulo);
   display: block;
   color: var(--tinta);
   font-weight: 700;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 
 /* ── Novedades ───────────────────────────────────────────────────────────── */
 
-.novedades { display: flex; flex-direction: column; gap: 0; }
+.novedades { display: flex; flex-direction: column; }
 
 .novedad {
-  padding: 26px 0;
+  padding: var(--e-lg) 0;
   border-top: 1px solid var(--borde);
   display: grid;
-  grid-template-columns: 170px 1fr;
-  gap: 8px 28px;
+  grid-template-columns: 180px 1fr;
+  gap: var(--e-sm) var(--e-xl);
 }
 
-.novedad:first-child { border-top: 0; padding-top: 6px; }
+.novedad:first-child { border-top: 0; padding-top: 0; }
 
-.novedad-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  padding-top: 4px;
-}
-
-.novedad time {
-  color: var(--tinta-tenue);
-  font-size: 14.5px;
-  letter-spacing: .03em;
-}
+.novedad-meta { display: flex; flex-direction: column; gap: 8px; padding-top: 5px; }
+.novedad time { color: var(--tinta-tenue); font-size: 14.5px; }
 
 .etiqueta {
   align-self: flex-start;
@@ -430,50 +480,72 @@ h2 .kanji {
   letter-spacing: .08em;
   text-transform: uppercase;
   font-weight: 700;
-  padding: 3px 9px;
+  padding: 3px 10px;
   border-radius: 999px;
-  background: rgba(232, 86, 75, .16);
-  color: var(--rojo-vivo);
-  border: 1px solid rgba(232, 86, 75, .34);
+  background: rgba(224, 166, 60, .14);
+  color: var(--oro);
+  border: 1px solid rgba(224, 166, 60, .34);
 }
 
-.novedad h3 { font-family: var(--titulo); margin: 0 0 6px; font-size: 1.15rem; }
-
+.novedad h3 { font-family: var(--titulo); margin: 0 0 6px; font-size: 1.18rem; }
 .novedad p { margin: 0; color: var(--tinta-suave); max-width: 46em; }
+
+/* ── Cierre ──────────────────────────────────────────────────────────────── */
+
+.cierre {
+  background:
+    radial-gradient(120% 120% at 50% 0%, rgba(21,128,61,.22), transparent 60%),
+    var(--fondo-3);
+  text-align: center;
+}
+
+.cierre h2 { margin-bottom: var(--e-md); }
+.cierre .entradilla { margin-left: auto; margin-right: auto; }
+.cierre .acciones { justify-content: center; }
 
 /* ── Pie ─────────────────────────────────────────────────────────────────── */
 
 footer {
   border-top: 1px solid var(--borde);
-  background: var(--fondo-2);
-  padding: 44px 0 56px;
+  background: var(--fondo);
+  padding: var(--e-2xl) 0 var(--e-3xl);
   color: var(--tinta-suave);
   font-size: 15px;
 }
 
-footer .envoltorio {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 18px 40px;
-  align-items: flex-start;
-}
-
+footer .envoltorio { display: flex; flex-wrap: wrap; gap: var(--e-md) var(--e-2xl); align-items: flex-start; }
 footer .sello { font-family: var(--titulo); color: var(--tinta); font-weight: 700; }
 footer p { margin: 0 0 6px; max-width: 40em; }
 footer .legal { color: var(--tinta-tenue); font-size: 14px; }
 
+/* ── Aparecer al llegar ──────────────────────────────────────────────────── */
+/*  La guía pide movimiento con sentido y prohíbe una sola duración para todo.
+    Aquí el movimiento dice una cosa: «esto acaba de entrar en pantalla». Sin
+    JavaScript no pasa nada: el estado por defecto es visible.               */
+
+.revela { opacity: 0; transform: translateY(18px); }
+
+.revela.dentro {
+  opacity: 1;
+  transform: none;
+  transition: opacity 420ms ease, transform 420ms cubic-bezier(.22,.8,.3,1);
+}
+
 /* ── Pantallas estrechas ─────────────────────────────────────────────────── */
+
+@media (max-width: 900px) {
+  .paso { grid-template-columns: 1fr; gap: var(--e-lg); }
+  .paso:nth-child(even) .paso-figura { order: 0; }
+}
 
 @media (max-width: 720px) {
   body { font-size: 16px; }
   .barra nav { gap: 14px; font-size: 14px; }
   .barra nav .oculta-movil { display: none; }
-  .barra-marca .kanji,
-  .barra-marca .resto { display: none; }   /* queda el emblema y «Ryujindo» */
-  .idiomas { padding-left: 12px; }
-  .hero { min-height: 74vh; }
-  .hero > .envoltorio { padding-top: 90px; padding-bottom: 48px; }
-  section { padding: 56px 0; }
+  .barra-marca .kanji, .barra-marca .resto { display: none; }
+  .hero { min-height: 76vh; }
+  .hero > .envoltorio { padding-top: 96px; padding-bottom: var(--e-2xl); }
+  section { padding: var(--e-2xl) 0; }
   .novedad { grid-template-columns: 1fr; gap: 10px; }
   .novedad-meta { flex-direction: row; align-items: center; gap: 12px; }
 }
@@ -481,5 +553,8 @@ footer .legal { color: var(--tinta-tenue); font-size: 14px; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .boton, .galeria img, .rasgo, .galeria figure { transition: none; }
-  .rasgo:hover, .galeria figure:hover { transform: none; }
+  .rasgo:hover, .galeria figure:hover, .boton:hover { transform: none; }
+  .revela { opacity: 1; transform: none; }
+  .revela.dentro { transition: none; }
+  .hero-fondo { transform: none !important; }
 }

@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ryujindo Card Shop — simulador de tienda de cartas en Japón</title>
 
-<meta name="description" content="Heredas las cajas de tu abuela y un cuarto de seis tatamis. Tasa, criba y vende hasta poder alquilar el local vacío de la esquina. Simulador de tienda de cartas TCG ambientado en Japón.">
+<meta name="description" content="Heredas las cajas de tu abuela y un cuarto de seis tatamis. Aprende a tasar, elige por dónde vendes y llega a alquilar el local de la esquina. Simulador de tienda de cartas TCG ambientado en Japón.">
 
 <link rel="canonical" href="https://dentroytu.github.io/ryujindo/">
 <link rel="alternate" hreflang="es" href="https://dentroytu.github.io/ryujindo/">
@@ -36,7 +36,7 @@
       <span>Ryujindo<span class="resto"> Card Shop</span></span>
     </a>
     <nav>
-      <a href="#el-juego" class="oculta-movil">El juego</a>
+      <a href="#como-se-juega" class="oculta-movil">Cómo se juega</a>
       <a href="#capturas" class="oculta-movil">Capturas</a>
       <a href="#novedades">Novedades</a>
       <a class="boton boton-barra" data-steam aria-disabled="true">
@@ -53,6 +53,7 @@
 <main>
 
 <section class="hero">
+  <div class="hero-fondo" data-parallax></div>
   <div class="envoltorio">
     <h1 class="hero-logo">
       <img src="img/logotipo.svg" width="1348" height="464" alt="Ryujindo Card Shop · 龍神堂">
@@ -80,47 +81,95 @@
   </div>
 </section>
 
-<section id="el-juego">
-  <div class="envoltorio prosa">
-    <h2><span class="kanji">店</span>Una tienda de cartas en un barrio de Tokio</h2>
-    <p class="entradilla">
-      Un simulador de tienda en primera persona donde lo que se compra y se vende
-      son cartas, y donde el dinero no lo hace reponer estantes: lo hace saber
-      cuánto vale lo que tienes delante.
+<section id="como-se-juega">
+  <div class="envoltorio">
+    <h2 class="revela"><span class="kanji">道</span>De que te timen a poner tu nombre en una persiana</h2>
+    <p class="entradilla revela">
+      No es un juego de reponer estantes. Es un juego de <strong>saber cuánto vale
+      lo que tienes delante</strong>, y de decidir a quién se lo vendes.
     </p>
 
-    <p>
-      Empiezas en el cuarto de seis tatamis que te presta tu abuela, con la
-      mudanza sin abrir y el alquiler venciendo el viernes. En una de esas cajas
-      hay una carta que vale mucho más de lo que te van a pagar por ella. Ese es
-      el prólogo, y de ahí sale todo lo demás.
-    </p>
+    <div class="pasos">
 
-    <p>
-      A partir de ahí el bucle es el de cualquier tienda —pedir género, reponer,
-      abrir, cobrar, cerrar y pagar el alquiler— con una diferencia:
-      <strong>cada carta que te pasa por las manos vale una cifra distinta según
-      quién te la compre</strong>. La esquina del mayorista paga el 55 % y paga
-      hoy. La aplicación paga más y descuenta comisión, envío y funda. Un
-      coleccionista de la calle paga de más por lo suyo, y el tablón de encargos
-      paga una prima por la pieza exacta que alguien lleva semanas buscando.
-      Elegir la salida es el juego.
-    </p>
+      <article class="paso revela">
+        <div>
+          <span class="paso-num">01</span>
+          <h3>El problema: no sabes lo que tienes</h3>
+          <p>
+            Amanece en el cuarto de seis tatamis que te presta tu abuela, con la
+            mudanza sin abrir y el alquiler venciendo el viernes. En una de esas
+            cajas hay una carta que vale mucho más de lo que te van a pagar por ella.
+          </p>
+          <p>
+            Kenji te ofrece <strong>¥12.000 en efectivo y sin papeles</strong>. No
+            miente, no te presiona y no se disculpa: simplemente sabe algo que tú
+            no sabes. Aceptas, porque el viernes es el viernes.
+          </p>
+        </div>
+        <div class="paso-figura">
+          <img src="img/kenji.webp" width="1280" height="720" loading="lazy"
+               alt="Kenji, detrás de su mostrador, ofreciendo doce mil yenes por la carta">
+        </div>
+      </article>
 
-    <p>
-      La meta está a la vista desde el primer día: el
-      <strong>貸店舗</strong> de la esquina, un local vacío con la persiana
-      echada y un cartel de «se alquila». Cuatro actos después, la persiana es
-      tuya.
-    </p>
+      <article class="paso revela">
+        <div>
+          <span class="paso-num">02</span>
+          <h3>La solución: tasar antes de vender</h3>
+          <p>
+            El precio de una carta no es un número: lo mueven la conservación, el
+            foil, el índice del set y el torneo del domingo, que sube un 35 % el
+            elemento que gane. Una tasación cuesta dinero; equivocarse cuesta más.
+          </p>
+          <p>
+            Y luego está la otra mitad: <strong>cada carta vale una cifra distinta
+            según quién te la compre</strong>. El mayorista de la esquina paga el
+            55 % y paga hoy. La aplicación paga más y descuenta comisión, envío y
+            funda. Un coleccionista de la calle paga de más por lo suyo, y el
+            tablón de encargos paga una prima por la pieza exacta que alguien lleva
+            semanas buscando.
+          </p>
+        </div>
+        <div class="paso-figura">
+          <img src="img/carpeta.webp" width="1280" height="720" loading="lazy"
+               alt="La carpeta con las cartas ordenadas y sus precios por canal">
+        </div>
+      </article>
+
+      <article class="paso revela">
+        <div>
+          <span class="paso-num">03</span>
+          <h3>La acción: la persiana de la esquina</h3>
+          <p>
+            El <strong>貸店舗</strong> está a la vista desde el primer día: un local
+            vacío con la persiana echada y un cartel de «se alquila». Cuatro actos
+            —el cuarto, el alquiler, las convenciones y el traspaso— separan una
+            cosa de la otra.
+          </p>
+          <p>
+            Y no estás solo en la cola: hay un vecino ahorrando para el mismo local
+            a su propio ritmo. Si firma antes que tú, el precio sube un 15 % para
+            siempre.
+          </p>
+        </div>
+        <div class="paso-figura">
+          <img src="img/local.webp" width="1280" height="720" loading="lazy"
+               alt="El local vacío con la persiana echada y el cartel de se alquila">
+        </div>
+      </article>
+
+    </div>
   </div>
 </section>
 
-<section id="rasgos">
+<section id="rasgos" class="honda">
   <div class="envoltorio">
-    <h2><span class="kanji">品</span>Lo que hay dentro</h2>
+    <h2 class="revela"><span class="kanji">品</span>Lo que hay dentro</h2>
+    <p class="entradilla revela">
+      Seis sistemas que se tocan entre sí, y ninguno es un menú con un botón.
+    </p>
 
-    <div class="rasgos">
+    <div class="rasgos revela">
 
       <div class="rasgo">
         <h3><span class="kanji">札</span>540 cartas, y todas significan algo</h3>
@@ -133,29 +182,29 @@
       </div>
 
       <div class="rasgo">
-        <h3><span class="kanji">相場</span>Tasar antes de vender</h3>
+        <h3><span class="kanji">相場</span>Un mercado que se mueve solo</h3>
         <p>
-          El precio no es un número fijo: lo mueven la conservación, el foil, el
-          índice del set y el torneo del domingo, que sube un 35 % el elemento
-          que gane. Una tasación cuesta dinero, y equivocarse cuesta más.
+          El torneo del domingo sube un elemento entero un 35 %, y eso reordena
+          media colección mientras duermes. Comprar barato el sábado lo que sube
+          el domingo es una jugada — si sabes quién va a ganar.
         </p>
       </div>
 
       <div class="rasgo">
         <h3><span class="kanji">交換</span>Trueque cara a cara</h3>
         <p>
-          En el mercadillo del sábado se cambia con gente que tasa por rareza y
-          se salta el mercado. Ahí está el margen — y el que tienes delante
-          también tiene ojo.
+          En el mercadillo del sábado se cambia con gente que tasa por rareza y se
+          salta el meta. Ahí está el margen — y el que tienes delante también
+          tiene ojo, y se acuerda de ti la próxima vez.
         </p>
       </div>
 
       <div class="rasgo">
         <h3><span class="kanji">勝負</span>Un duelo de verdad</h3>
         <p>
-          <b>一本勝負</b>: mazos de veinte cartas, tres copias como máximo, y
-          nunca más de las que tengas de verdad en la carpeta. Se juega en las
-          mesas de la tienda y en el torneo del domingo.
+          <b>一本勝負</b>: mazos de veinte cartas, tres copias como máximo, y nunca
+          más de las que tengas de verdad en la carpeta. Se juega en las mesas de
+          tu tienda y en el torneo del domingo.
         </p>
       </div>
 
@@ -169,11 +218,11 @@
       </div>
 
       <div class="rasgo">
-        <h3><span class="kanji">四幕</span>Una campaña de cuatro actos</h3>
+        <h3><span class="kanji">四幕</span>Una campaña con final</h3>
         <p>
-          Del cuarto de la mudanza al traspaso del local, con un vecino que
-          quiere el mismo local que tú y llega a su ritmo. Hay un final, y se
-          puede llegar a él.
+          Cuatro actos, del cuarto de la mudanza a la firma del traspaso, con un
+          hilo de mensajes que ata unos con otros. Hay un final, y se puede llegar
+          a él.
         </p>
       </div>
 
@@ -183,12 +232,12 @@
 
 <section id="capturas">
   <div class="envoltorio">
-    <h2><span class="kanji">写</span>Capturas</h2>
-    <p class="entradilla">
+    <h2 class="revela"><span class="kanji">写</span>Capturas</h2>
+    <p class="entradilla revela">
       Del juego en marcha, sin retocar. Púlsalas para verlas grandes.
     </p>
 
-    <div class="galeria">
+    <div class="galeria revela">
 
       <figure>
         <a href="img/cruce.webp"><img src="img/cruce-r.webp" width="800" height="450" loading="lazy" alt="Un cruce de peatones con rótulos de neón, coches parados y gente esperando"></a>
@@ -216,6 +265,11 @@
       </figure>
 
       <figure>
+        <a href="img/local.webp"><img src="img/local-r.webp" width="800" height="450" loading="lazy" alt="El local vacío con la persiana echada y el cartel de se alquila"></a>
+        <figcaption><b>貸店舗</b>La meta, visible desde el primer día y en la misma calle en la que duermes.</figcaption>
+      </figure>
+
+      <figure>
         <a href="img/yokocho.webp"><img src="img/yokocho-r.webp" width="800" height="450" loading="lazy" alt="Un callejón estrecho con farolillos rojos encendidos"></a>
         <figcaption><b>El 横丁</b>Dos metros y medio de ancho, farolillos y una raja de cielo.</figcaption>
       </figure>
@@ -235,21 +289,34 @@
         <figcaption><b>El ramen del callejón</b>Seis taburetes y una barra, en un local que es un tramo del pasaje.</figcaption>
       </figure>
 
+      <figure>
+        <a href="img/kenji.webp"><img src="img/kenji-r.webp" width="800" height="450" loading="lazy" alt="Kenji detrás de su mostrador durante una conversación"></a>
+        <figcaption><b>Kenji</b>Nunca miente y nunca se disculpa. Con el tiempo, deja de ser el que te timó.</figcaption>
+      </figure>
+
     </div>
   </div>
 </section>
 
-<section id="novedades">
+<section id="novedades" class="honda">
   <div class="envoltorio">
-    <h2><span class="kanji">近況</span>Novedades</h2>
-    <p class="entradilla">
+    <h2 class="revela"><span class="kanji">近況</span>Novedades</h2>
+    <p class="entradilla revela">
       En qué anda el desarrollo. Lo último, arriba.
     </p>
 
-    <div class="novedades" data-novedades></div>
+    <div class="novedades revela" data-novedades></div>
     <noscript><p data-sinjs>Las novedades necesitan JavaScript. Sin él, el resto de la página se lee igual.</p></noscript>
+  </div>
+</section>
 
-    <div class="acciones">
+<section class="cierre">
+  <div class="envoltorio">
+    <h2 class="revela"><span class="kanji">龍神堂</span>Ponle tu nombre a la persiana</h2>
+    <p class="entradilla revela">
+      Añádelo a tu lista de deseados y te enteras el día que abra.
+    </p>
+    <div class="acciones revela">
       <a class="boton" data-steam aria-disabled="true">
         <span data-steam-texto>Pronto en Steam</span>
       </a>

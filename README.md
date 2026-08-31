@@ -10,6 +10,7 @@ JavaScript, así que se abre con doble clic y se publica copiando la carpeta.
   en/index.html       inglés
   css/estilo.css      la maqueta, común a las dos lenguas
   css/fuentes.css     las dos familias, servidas desde fonts/ y no desde Google
+  design-system/      el sistema del que sale la maqueta — leerlo antes de tocar
   fonts/              los .woff2 latinos + el texto de la OFL que exige llevarlos
   js/novedades.js     ← LAS NOVEDADES, en un solo sitio y en los dos idiomas
   js/web.js           pinta las novedades y resuelve el enlace a Steam
@@ -134,6 +135,14 @@ Las decisiones que parecen raras y no lo son:
 - **El velo del hero cae en curva suave.** El juego se dejó el título de su
   propio menú a un 0,006 de opacidad cuatro veces seguidas por usar una caída
   cuadrática (trampas 206, 280, 335 y 377). La misma cuenta, el mismo error.
+- **La maqueta sale de `design-system/ryujindo-card-shop/MASTER.md`**, generado
+  con la guía de diseño instalada: patrón *Feature-Rich Showcase*, superficie
+  oscura, verde tapete y oro, profundidad por capas y 200-300 ms de transición.
+  Dos cosas se apartan de él a propósito, y las dos están razonadas en la
+  cabecera de `estilo.css`: la tipografía —proponía una manuscrita artesanal
+  para «indie», y la ficha de sitios japoneses da Noto Serif JP + Noto Sans JP,
+  que además es la letra que el juego lleva dentro— y el rojo, que lo manda el
+  logotipo y no una paleta.
 - **Los titulares van en mincho.** Es la letra de los rótulos y los libros
   japoneses, y comparte con el logotipo la lógica del trazo modulado que una
   grotesca no tiene. Solo en titulares: en cuerpo pequeño una serif japonesa

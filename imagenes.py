@@ -55,6 +55,8 @@ CALIDAD = 82
 # volver a lanzar el guion; los pies de foto viven en el HTML de cada idioma.
 CAPTURAS = [
     ("56-cruce.png",          "cruce"),        # el hero
+    ("29-kenji-oferta.png",   "kenji"),        # el paso 1: el problema
+    ("43b-local.png",         "local"),        # el paso 3: la meta
     ("25-apertura.png",       "apertura"),
     ("67-ficha.png",          "ficha"),
     ("68-duelo.png",          "duelo"),
