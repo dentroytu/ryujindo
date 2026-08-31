@@ -87,7 +87,11 @@ body {
   overflow-wrap: break-word;
 }
 
-img { max-width: 100%; display: block; }
+/* `height: auto` no es opcional: los <img> llevan sus width/height escritos
+   —hacen falta para que el navegador reserve el hueco y la página no dé saltos
+   al cargar— y sin esto el navegador toma ese alto como fijo mientras el ancho
+   manda el CSS. El resultado es cada imagen estirada. */
+img { max-width: 100%; height: auto; display: block; }
 a { color: var(--oro); }
 a:hover { color: var(--tinta); }
 

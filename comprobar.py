@@ -159,6 +159,43 @@ for lang, pagina in PAGINAS:
 if len(dominios) > 1:
     fallo("las dos páginas apuntan a dominios distintos: %s" % ", ".join(sorted(dominios)))
 
+# ── 7 · Los width/height dicen la verdad, y el CSS deja el alto libre ───────
+#
+# Los <img> llevan sus medidas escritas para que el navegador reserve el hueco y
+# la página no dé saltos al cargar. El precio es que, si esas medidas no son las
+# del fichero —o si el CSS fija el ancho y se olvida del alto—, cada imagen sale
+# estirada. No da error: solo se ve, y el que mira lo llama «descuadrado».
+
+try:
+    from PIL import Image
+except ImportError:
+    Image = None
+
+css_img = leer("css/estilo.css")
+if not re.search(r"^img\s*\{[^}]*height:\s*auto", css_img, re.M):
+    fallo("css/estilo.css · las imágenes no llevan `height: auto`, así que el "
+          "alto escrito en el HTML se aplica como fijo y las estira")
+
+if Image is not None:
+    for lang, pagina in PAGINAS:
+        html = leer(pagina)
+        base = os.path.dirname(os.path.join(AQUI, pagina))
+        for m in re.finditer(r'<img\s+src="([^"]+)"\s+width="(\d+)"\s+height="(\d+)"', html):
+            src, w, h = m.group(1), int(m.group(2)), int(m.group(3))
+            if src.lower().endswith(".svg"):
+                continue
+            ruta = os.path.normpath(os.path.join(base, src))
+            if not os.path.exists(ruta):
+                continue
+            im = Image.open(ruta)
+            dicho = w / float(h)
+            real = im.width / float(im.height)
+            if abs(dicho - real) > 0.01:
+                fallo("%s · %s dice %d×%d (%.3f) y el fichero es %d×%d (%.3f): "
+                      "la imagen saldrá descuadrada"
+                      % (pagina, os.path.basename(src), w, h, dicho,
+                         im.width, im.height, real))
+
 # ── Resultado ───────────────────────────────────────────────────────────────
 
 print("Web · %d páginas · %d capturas · %d novedades"
