@@ -36,7 +36,6 @@ import shutil
 import subprocess
 import sys
 import tempfile
-from collections import deque
 
 try:
     from PIL import Image
@@ -80,17 +79,20 @@ CAPTURAS = [
     ("72-konbini-dentro.png",   "konbini"),
 ]
 
-# La marca. El origen es **una sola hoja PNG con alfa**: el logotipo en el
-# estilo del juego —low poly, la tienda con su torii y su noren— del que se
-# recortan las dos piezas que hacen falta. Se separan por grupos de píxeles que
-# se tocan, no por coordenadas escritas a mano: el día que la hoja se rehaga con
-# las piezas en otro sitio, un recorte por coordenadas devolvería basura sin
-# avisar.
+# La marca. Son **cinco ficheros**, uno por pieza, en `arte/marca/`: no hay nada
+# que recortar ni que adivinar. Antes venían todas en una hoja y había que
+# separarlas por grupos de píxeles que se tocan; con el kit hecho, eso sobra —
+# y lo que sobra no puede fallar.
 MARCA_DIR = os.path.join(AQUI, "arte", "marca")
-HOJA = "ryujindo-logo-3d.png"
 
-ANCHO_LOGO = 1800      # el hero, con margen para pantallas densas
-ANCHO_EMBLEMA = 512    # la barra
+MARCA = [
+    # (fichero, nombre en la web, ancho)
+    ("logotipo-horizontal.png", "logotipo.webp", 1800),   # el hero
+    ("emblema.png",             "emblema.webp",   512),   # la barra y el favicon
+    ("logotipo-apilado.png",    "apilado.webp",   900),   # cajas altas y móvil
+    ("tienda.png",              "tienda-marca.webp", 900),
+]
+
 FAVICON = 180
 
 # La imagen que se ve al pegar el enlace en un chat o en una red. Se compone del
@@ -112,69 +114,6 @@ def escalar(origen, destino, ancho, calidad=CALIDAD):
         im = im.resize((ancho, alto), Image.LANCZOS)
     im.save(destino, "WEBP", quality=calidad - 2, method=6)
     return os.path.getsize(destino), im.size
-
-
-def piezas_de_marca(hoja):
-    """
-    Separa el logotipo y el emblema de la hoja de marca.
-
-    No se recorta por coordenadas: se buscan los grupos de píxeles que se tocan
-    —sobre una copia reducida, cien veces más rápido y con la misma caja— y se
-    identifican por su forma. El logotipo es el que es mucho más ancho que alto;
-    el emblema, el que es casi cuadrado. Con coordenadas escritas a mano, rehacer
-    la hoja con las piezas en otro sitio devolvería dos recortes mal sin avisar.
-    """
-    im = Image.open(hoja).convert("RGBA")
-    W, H = im.size
-    esc = 4
-    peq = im.resize((W // esc, H // esc), Image.NEAREST)
-    alfa = peq.split()[3].load()
-    w, h = peq.size
-
-    visto = [[False] * w for _ in range(h)]
-    cajas = []
-    for y0 in range(h):
-        for x0 in range(w):
-            if visto[y0][x0] or alfa[x0, y0] <= 100:
-                continue
-            cola = deque([(x0, y0)])
-            visto[y0][x0] = True
-            x1 = x2 = x0
-            y1 = y2 = y0
-            n = 0
-            while cola:
-                x, y = cola.popleft()
-                n += 1
-                x1, x2 = min(x1, x), max(x2, x)
-                y1, y2 = min(y1, y), max(y2, y)
-                for dx in (-1, 0, 1):
-                    for dy in (-1, 0, 1):
-                        nx, ny = x + dx, y + dy
-                        if (0 <= nx < w and 0 <= ny < h
-                                and not visto[ny][nx] and alfa[nx, ny] > 100):
-                            visto[ny][nx] = True
-                            cola.append((nx, ny))
-            if n > 300:
-                cajas.append((x1 * esc, y1 * esc, (x2 + 1) * esc, (y2 + 1) * esc))
-
-    if len(cajas) != 2:
-        sys.exit("la hoja de marca tiene %d piezas y se esperaban 2 —el logotipo "
-                 "y el emblema—: %s" % (len(cajas), hoja))
-
-    cajas.sort(key=lambda c: -(c[2] - c[0]) / float(c[3] - c[1]))
-    ancha, cuadrada = cajas[0], cajas[1]
-    if (ancha[2] - ancha[0]) < 2 * (ancha[3] - ancha[1]):
-        sys.exit("la pieza más ancha de la hoja no parece el logotipo")
-
-    def ajustada(caja):
-        trozo = im.crop(caja)
-        bb = trozo.split()[3].getbbox()      # a su tinta, sin aire alrededor
-        return trozo.crop(bb) if bb else trozo
-
-    # El logotipo que va al hero es la hoja ENTERA —la tienda y el texto juntos,
-    # que es como está compuesta—; el emblema es solo la tienda.
-    entero = im.crop(im.split()[3].getbbox())
-    return entero, ajustada(cuadrada)
 
 
 def imagen_de_enlace(captura, logotipo, salida):
@@ -240,8 +179,8 @@ def main():
 
     faltan = [f for f, _ in CAPTURAS if not os.path.exists(os.path.join(args.shots, f))]
     marca_dir = args.marca
-    if not os.path.exists(os.path.join(marca_dir, HOJA)):
-        faltan.append(os.path.join(marca_dir, HOJA))
+    faltan += [os.path.join(marca_dir, f) for f, _, _ in MARCA
+               if not os.path.exists(os.path.join(marca_dir, f))]
     if faltan:
         sys.exit("faltan estos originales, hay que generarlos con el juego:\n  "
                  + "\n  ".join(faltan))
@@ -258,24 +197,26 @@ def main():
             print("  %-22s %4d×%-4d %6.0f KB" % (os.path.basename(salida),
                                                  tam[0], tam[1], peso / 1024))
 
-    hoja = os.path.join(marca_dir, HOJA)
-    logo, emblema = piezas_de_marca(hoja)
-
-    for pieza, nombre, ancho in ((logo, "logotipo.webp", ANCHO_LOGO),
-                                 (emblema, "emblema.webp", ANCHO_EMBLEMA)):
-        im = pieza
+    piezas = {}
+    for fuente, nombre, ancho in MARCA:
+        im = Image.open(os.path.join(marca_dir, fuente)).convert("RGBA")
+        bb = im.split()[3].getbbox()          # a su tinta, sin aire alrededor
+        if bb:
+            im = im.crop(bb)
         if im.width > ancho:
             im = im.resize((ancho, round(im.height * ancho / im.width)), Image.LANCZOS)
         salida = os.path.join(DESTINO, nombre)
         im.save(salida, "WEBP", quality=90, method=6)
+        piezas[nombre] = im
         peso = os.path.getsize(salida)
         total += peso
         print("  %-22s %4d×%-4d %6.0f KB" % (nombre, im.width, im.height, peso / 1024))
 
-    # El favicon va en PNG: es lo que entienden todos los navegadores y los
-    # atajos del escritorio, y a 180 px pesa lo mismo en los dos formatos.
-    fav = emblema.resize((FAVICON, round(emblema.height * FAVICON / emblema.width)),
-                         Image.LANCZOS)
+    # El favicon sale del emblema —el cuadrado con la máscara, que es la única
+    # pieza que se sigue leyendo a 32 px— y va en PNG, que es lo que entienden
+    # todos los navegadores y los atajos de escritorio.
+    emb = piezas["emblema.webp"]
+    fav = emb.resize((FAVICON, round(emb.height * FAVICON / emb.width)), Image.LANCZOS)
     salida = os.path.join(DESTINO, "favicon.png")
     fav.save(salida, "PNG", optimize=True)
     peso = os.path.getsize(salida)
@@ -283,6 +224,7 @@ def main():
     print("  %-22s %4d px      %6.0f KB" % ("favicon.png", FAVICON, peso / 1024))
 
     salida = os.path.join(DESTINO, "og.jpg")
+    logo = piezas["logotipo.webp"]
     ancho_og = int(OG_ANCHO * 0.78)
     logo_og = logo.resize((ancho_og, round(logo.height * ancho_og / logo.width)),
                           Image.LANCZOS)
@@ -290,7 +232,7 @@ def main():
     total += peso
     print("  %-22s %4d×%-4d %6.0f KB" % ("og.jpg", tam[0], tam[1], peso / 1024))
 
-    print("\n%d imágenes · %.1f MB en total" % (len(CAPTURAS) * 2 + 4,
+    print("\n%d imágenes · %.1f MB en total" % (len(CAPTURAS) * 2 + len(MARCA) + 2,
                                                 total / 1024 / 1024))
 
 
