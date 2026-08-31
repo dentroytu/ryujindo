@@ -194,6 +194,49 @@ const TEXTOS = {
     escena.addEventListener("touchend", soltar);
   }
 
+  /* ── La barra se cierra al bajar ─────────────────────────────────────── */
+  /*
+     Sobre el hero va transparente y deja ver la ciudad; en cuanto la página se
+     mueve, se cierra con su fondo y su filo. Una barra opaca desde el primer
+     píxel recorta justo la imagen que la portada viene a enseñar.
+  */
+
+  const barra = document.querySelector(".barra");
+  if (barra) {
+    function mirar() { barra.classList.toggle("pegada", window.scrollY > 40); }
+    window.addEventListener("scroll", mirar, { passive: true });
+    mirar();
+  }
+
+  /* ── Las cifras cuentan al llegar ────────────────────────────────────── */
+  /*
+     Contar hasta el número dice «esto es una cantidad» mejor que el número
+     quieto, y dura lo justo para verse una vez. Con `prefers-reduced-motion`
+     no se anima: el valor final ya está escrito en el HTML, así que sin JS y
+     sin animación la cifra se lee igual.
+  */
+
+  const cifras = document.querySelectorAll("[data-cuenta]");
+  if (cifras.length && !quieto && "IntersectionObserver" in window) {
+    const ojo = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        ojo.unobserve(e.target);
+        const fin = parseInt(e.target.getAttribute("data-cuenta"), 10);
+        const dura = 900;
+        const t0 = performance.now();
+        (function paso(t) {
+          const k = Math.min(1, (t - t0) / dura);
+          // frenada al final: llega al número y se para, no lo alcanza de golpe
+          const suave = 1 - Math.pow(1 - k, 3);
+          e.target.textContent = String(Math.round(fin * suave));
+          if (k < 1) requestAnimationFrame(paso);
+        })(t0);
+      });
+    }, { threshold: 0.5 });
+    cifras.forEach(function (n) { ojo.observe(n); });
+  }
+
   /* ── El año del pie ──────────────────────────────────────────────────── */
 
   document.querySelectorAll("[data-anyo]").forEach(function (n) {

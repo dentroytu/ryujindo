@@ -879,3 +879,128 @@ h2 { font-size: clamp(2.1rem, 4.6vw, 3.1rem); }
   .hero-abajo::after { animation: none; }
   .carta { transition: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TERCERA PASADA — la barra y las cifras, que eran las dos piezas que seguían
+   pareciendo de plantilla: cinco números flotando entre dos líneas finas, y
+   una barra igual a la de cualquier sitio.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── La barra ────────────────────────────────────────────────────────────────
+   Sobre el hero va transparente y deja ver la ciudad; al bajar se cierra. Una
+   barra opaca desde el primer píxel recorta la imagen que la página viene a
+   enseñar, y eso es justo lo que se paga en la primera impresión.            */
+
+.barra {
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid transparent;
+  transition: background var(--paso) ease, border-color var(--paso) ease,
+              backdrop-filter var(--paso) ease;
+}
+
+.barra.pegada {
+  background: rgba(15, 23, 42, .90);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom-color: var(--borde);
+}
+
+/* El filo: un hilo de tinta y oro bajo la barra, del ancho de la página. No es
+   un adorno gratuito — es lo que la separa del mundo cuando va transparente. */
+.barra::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent, rgba(232,86,75,.5) 18%, rgba(224,166,60,.55) 50%,
+    rgba(232,86,75,.5) 82%, transparent);
+  opacity: 0;
+  transition: opacity var(--paso) ease;
+}
+
+.barra.pegada::after { opacity: 1; }
+
+.barra .envoltorio { position: relative; }
+
+/* Los enlaces se subrayan al pasar, y el subrayado crece del centro. */
+.barra nav > a {
+  position: relative;
+  padding: 4px 0;
+}
+
+.barra nav > a::after {
+  content: "";
+  position: absolute;
+  left: 50%; right: 50%; bottom: 0;
+  height: 1.5px;
+  background: var(--oro);
+  transition: left var(--paso) ease, right var(--paso) ease;
+}
+
+.barra nav > a:hover::after { left: 0; right: 0; }
+
+/* El botón de la barra, con el icono de Steam delante */
+.boton svg { width: 17px; height: 17px; flex: 0 0 auto; }
+.boton-barra svg { width: 15px; height: 15px; }
+
+/* ── Las cifras ──────────────────────────────────────────────────────────────
+   Cada una con su kanji encima y su separador: cinco números sueltos entre dos
+   hilos son una plantilla; con el kanji son las cifras de ESTE juego.        */
+
+#cifras { padding: var(--e-2xl) 0; }
+
+.cifras {
+  border: 0;
+  padding: 0;
+  gap: 0;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+}
+
+.cifra {
+  position: relative;
+  padding: var(--e-lg) var(--e-sm);
+}
+
+/* El separador va ENTRE columnas y no en los bordes: un hilo suelto al final de
+   la fila se lee como algo cortado. */
+.cifra + .cifra::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 18%; bottom: 18%;
+  width: 1px;
+  background: linear-gradient(transparent, var(--borde) 25%, var(--borde) 75%, transparent);
+}
+
+.cifra i {
+  display: block;
+  font-family: var(--titulo);
+  font-style: normal;
+  font-size: 1.05rem;
+  color: var(--rojo);
+  opacity: .85;
+  margin-bottom: 4px;
+  letter-spacing: .12em;
+}
+
+.cifra b {
+  font-size: clamp(2.6rem, 5.4vw, 3.8rem);
+  text-shadow: 0 6px 26px rgba(224,166,60,.18);
+}
+
+.cifra span { margin-top: 8px; font-size: 12.5px; }
+
+/* La banda de las cifras, con su propio suelo: un degradado de tapete que la
+   separa de la sección de al lado sin necesidad de otra línea. */
+#cifras.honda {
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(21,128,61,.16), transparent 62%),
+    var(--fondo-3);
+}
+
+@media (max-width: 620px) {
+  .cifra + .cifra::before { display: none; }
+  .cifra { padding: var(--e-md) var(--e-sm); }
+}
