@@ -131,12 +131,12 @@ button, a, [role="button"] { cursor: pointer; }
   inset: 0;
   background:
     linear-gradient(to top,
-      rgba(15,23,42,.98) 0%,
-      rgba(15,23,42,.94) 20%,
-      rgba(15,23,42,.82) 40%,
-      rgba(15,23,42,.58) 62%,
-      rgba(15,23,42,.40) 82%,
-      rgba(15,23,42,.32) 100%);
+      rgba(15,23,42,.95) 0%,
+      rgba(15,23,42,.88) 20%,
+      rgba(15,23,42,.66) 40%,
+      rgba(15,23,42,.38) 62%,
+      rgba(15,23,42,.20) 82%,
+      rgba(15,23,42,.12) 100%);
 }
 
 .hero > .envoltorio {
@@ -1109,3 +1109,26 @@ h2 { font-size: clamp(2.1rem, 4.6vw, 3.1rem); }
 @media (prefers-reduced-motion: reduce) {
   .preguntas summary::after, .preguntas summary::before { transition: none; }
 }
+
+/* ── El cierre, con su arte detrás ───────────────────────────────────────────
+   El fondo se carga cuando se acerca (`data-fondo`), así que la sección tiene
+   que leerse igual antes de que llegue: por eso el velo va por encima del color
+   y no en lugar de él.                                                       */
+
+.cierre {
+  position: relative;
+  background-size: cover;
+  background-position: center 62%;
+  padding: calc(var(--e-3xl) * 1.4) 0;
+}
+
+.cierre::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(90% 90% at 50% 50%, rgba(15,23,42,.74), rgba(15,23,42,.93)),
+    radial-gradient(120% 120% at 50% 0%, rgba(21,128,61,.20), transparent 62%);
+}
+
+.cierre .envoltorio { position: relative; z-index: 2; }

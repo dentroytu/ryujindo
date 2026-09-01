@@ -95,6 +95,22 @@ MARCA = [
 
 FAVICON = 180
 
+# El arte promocional. Es ILUSTRACIÓN, no el juego: por eso va en el hero y en
+# el cierre —donde lo que se enseña es el tono— y **nunca en la galería**, que
+# dice «del juego en marcha, sin retocar» y tiene que seguir siendo verdad.
+PROMO_DIR = os.path.join(AQUI, "arte", "promo")
+
+PROMO = [
+    ("calle-atardecer.png",  "arte-calle.webp",  2200),   # hero, primera toma
+    ("calle-noche.png",      "arte-noche.webp",  2200),   # hero, segunda
+    ("cartel-calle.png",     "arte-cierre.webp", 1400),   # el fondo del cierre
+]
+
+# La imagen que se ve al pegar el enlace ya no se compone: hay un banner
+# dibujado con el logotipo puesto, y compone mejor que nada que pueda montar yo
+# encajando una pieza sobre una captura.
+OG_FUENTE = "banner-logotipo.png"
+
 # La imagen que se ve al pegar el enlace en un chat o en una red. Se compone del
 # fondo del hero y del logotipo, así que cambia sola el día que cambie cualquiera
 # de los dos.
@@ -179,6 +195,10 @@ def main():
 
     faltan = [f for f, _ in CAPTURAS if not os.path.exists(os.path.join(args.shots, f))]
     marca_dir = args.marca
+    faltan += [os.path.join(PROMO_DIR, f) for f, _, _ in PROMO
+               if not os.path.exists(os.path.join(PROMO_DIR, f))]
+    if not os.path.exists(os.path.join(PROMO_DIR, OG_FUENTE)):
+        faltan.append(os.path.join(PROMO_DIR, OG_FUENTE))
     faltan += [os.path.join(marca_dir, f) for f, _, _ in MARCA
                if not os.path.exists(os.path.join(marca_dir, f))]
     if faltan:
@@ -223,16 +243,32 @@ def main():
     total += peso
     print("  %-22s %4d px      %6.0f KB" % ("favicon.png", FAVICON, peso / 1024))
 
-    salida = os.path.join(DESTINO, "og.jpg")
-    logo = piezas["logotipo.webp"]
-    ancho_og = int(OG_ANCHO * 0.78)
-    logo_og = logo.resize((ancho_og, round(logo.height * ancho_og / logo.width)),
-                          Image.LANCZOS)
-    peso, tam = imagen_de_enlace(os.path.join(args.shots, CAPTURAS[0][0]), logo_og, salida)
-    total += peso
-    print("  %-22s %4d×%-4d %6.0f KB" % ("og.jpg", tam[0], tam[1], peso / 1024))
+    for fuente, nombre, ancho in PROMO:
+        im = Image.open(os.path.join(PROMO_DIR, fuente)).convert("RGB")
+        if im.width > ancho:
+            im = im.resize((ancho, round(im.height * ancho / im.width)), Image.LANCZOS)
+        salida = os.path.join(DESTINO, nombre)
+        im.save(salida, "WEBP", quality=CALIDAD, method=6)
+        peso = os.path.getsize(salida)
+        total += peso
+        print("  %-22s %4d×%-4d %6.0f KB" % (nombre, im.width, im.height, peso / 1024))
 
-    print("\n%d imágenes · %.1f MB en total" % (len(CAPTURAS) * 2 + len(MARCA) + 2,
+    # El enlace compartido: el banner tal cual, recortado al centro a 1200×630.
+    im = Image.open(os.path.join(PROMO_DIR, OG_FUENTE)).convert("RGB")
+    prop = OG_ANCHO / float(OG_ALTO)
+    if im.width / float(im.height) > prop:
+        a = int(im.height * prop)
+        im = im.crop(((im.width - a) // 2, 0, (im.width + a) // 2, im.height))
+    else:
+        a = int(im.width / prop)
+        im = im.crop((0, (im.height - a) // 2, im.width, (im.height + a) // 2))
+    salida = os.path.join(DESTINO, "og.jpg")
+    im.resize((OG_ANCHO, OG_ALTO), Image.LANCZOS).save(salida, "JPEG", quality=88, optimize=True)
+    peso = os.path.getsize(salida)
+    total += peso
+    print("  %-22s %4d×%-4d %6.0f KB" % ("og.jpg", OG_ANCHO, OG_ALTO, peso / 1024))
+
+    print("\n%d imágenes · %.1f MB en total" % (len(CAPTURAS) * 2 + len(MARCA) + len(PROMO) + 2,
                                                 total / 1024 / 1024))
 
 
